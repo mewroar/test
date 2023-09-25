@@ -793,10 +793,10 @@ byte[]でReader,Writer,Deserialize,Serializeの比較
 |FromDecimal(decimal)|decimalのFixedPoint8の値で返します|
 |Parse(string)|文字列をFixedPoint8に変換しようとします|
 |Parse(ReadOnlySpan&lt;char&gt;)|読み取り専用のcharを、FixedPoint8に変換しようとします|
-|Parse(ReadOnlySpan<byte>)|読み取り専用のbyteを、FixedPoint8に変換しようとします|
+|Parse(ReadOnlySpan&lt;byte&gt)|読み取り専用のbyteを、FixedPoint8に変換しようとします|
 |TryParse([NotNullWhen(true)] string?, out FixedPoint8)|文字列をFixedPoint8に変換しようとします。戻り値は、変換が成功したか失敗したかを示します|
-|TryParse(ReadOnlySpan<char>, out FixedPoint8)|読み取り専用のcharを、FixedPoint8に変換しようとします。戻り値は、変換が成功したか失敗したかを示します|
-|TryParse(ReadOnlySpan<byte>, out FixedPoint8)|読み取り専用のbyteを、FixedPoint8に変換しようとします。 戻り値は、変換が成功したか失敗したかを示します|
+|TryParse(ReadOnlySpan&lt;char&gt, out FixedPoint8)|読み取り専用のcharを、FixedPoint8に変換しようとします。戻り値は、変換が成功したか失敗したかを示します|
+|TryParse(ReadOnlySpan&lt;byte&gt, out FixedPoint8)|読み取り専用のbyteを、FixedPoint8に変換しようとします。 戻り値は、変換が成功したか失敗したかを示します|
 |ToString()|このインスタンスの数値を同等の文字列表現に変換します|
 |ToUtf8()|このインスタンスの数値をUTF8に変換します|
 |Equals(object?)|このインスタンスが指定されたオブジェクトと等しいかどうかを示す値を返します|
@@ -826,18 +826,18 @@ byte[]でReader,Writer,Deserialize,Serializeの比較
 |MaxMagnitudeNumber(FixedPoint8, FixedPoint8)|値を比較して大きい方の値を返します|
 |MinMagnitude(FixedPoint8, FixedPoint8)|値を比較して小さい方の値を返します|
 |MinMagnitudeNumber(FixedPoint8, FixedPoint8)|値を比較して小さい方の値を返します|
-|Parse(ReadOnlySpan<char>, NumberStyles, IFormatProvider?)|未実装|
+|Parse(ReadOnlySpan&lt;char&gt, NumberStyles, IFormatProvider?)|未実装|
 |Parse(string, NumberStyles, IFormatProvider?)|未実装|
-|TryParse(ReadOnlySpan<char>, NumberStyles, IFormatProvider?, [MaybeNullWhen(false)] out FixedPoint8)|未実装|
+|TryParse(ReadOnlySpan&lt;char&gt, NumberStyles, IFormatProvider?, [MaybeNullWhen(false)] out FixedPoint8)|未実装|
 |TryParse([NotNullWhen(true)] string?, NumberStyles, IFormatProvider?, [MaybeNullWhen(false)] out FixedPoint8)|未実装|
-|TryFormat(Span<char> , out int, ReadOnlySpan<char>, IFormatProvider?)|ReadOnlySpan<char>が0以外の時はdecima.TryFormat、0の時はSpan<char>のLengthを見てWriteChars,TryWriteChars。返り値は変換が成功したか失敗したかを示します|
-|TryWriteChars(Span<char> ,out int)|現在の整数値インスタンスの値の、指定したcharスパンへの書式設定を試みます。戻り値は、変換が成功したか失敗したかを示します|
-|WriteChars(ref Span<char>)|現在の整数値インスタンスの値の、指定したcharスパンへの書式設定を試みます|
-|TryWriteChars(Span<byte> ,out int)|現在の整数値インスタンスの値の、指定したbyteスパンへの書式設定を試みます。戻り値は、変換が成功したか失敗したかを示します|
-|WriteChars(ref Span<byte>)|現在の整数値インスタンスの値の、指定したbyteスパンへの書式設定を試みます|
+|TryFormat(Span&lt;char&gt , out int, ReadOnlySpan&lt;char&gt, IFormatProvider?)|ReadOnlySpan&lt;char&gtが0以外の時はdecima.TryFormat、0の時はSpan&lt;char&gtのLengthを見てWriteChars,TryWriteChars。返り値は変換が成功したか失敗したかを示します|
+|TryWriteChars(Span&lt;char&gt ,out int)|現在の整数値インスタンスの値の、指定したcharスパンへの書式設定を試みます。戻り値は、変換が成功したか失敗したかを示します|
+|WriteChars(ref Span&lt;char&gt)|現在の整数値インスタンスの値の、指定したcharスパンへの書式設定を試みます|
+|TryWriteChars(Span&lt;byte&gt ,out int)|現在の整数値インスタンスの値の、指定したbyteスパンへの書式設定を試みます。戻り値は、変換が成功したか失敗したかを示します|
+|WriteChars(ref Span&lt;byte&gt)|現在の整数値インスタンスの値の、指定したbyteスパンへの書式設定を試みます|
 |ToString(string?, IFormatProvider?)|※速度最適化未実施|
-|Parse(ReadOnlySpan<char>, IFormatProvider?)|読み取り専用のcharを、decimalに変換後、FixedPoint8にキャストします※速度最適化未実施|
-|TryParse(ReadOnlySpan<char>, IFormatProvider?, [MaybeNullWhen(false)] out FixedPoint8)|読み取り専用のcharを、decimalに変換後、FixedPoint8にキャストします。戻り値は、変換が成功したか失敗したかを示します|
+|Parse(ReadOnlySpan&lt;char&gt, IFormatProvider?)|読み取り専用のcharを、decimalに変換後、FixedPoint8にキャストします※速度最適化未実施|
+|TryParse(ReadOnlySpan&lt;char&gt, IFormatProvider?, [MaybeNullWhen(false)] out FixedPoint8)|読み取り専用のcharを、decimalに変換後、FixedPoint8にキャストします。戻り値は、変換が成功したか失敗したかを示します|
 |Parse(string, IFormatProvider?)|文字列をdecimalに変換後、FixedPoint8にキャストします※速度最適化未実施|
 |TryParse([NotNullWhen(true)] string?, IFormatProvider?, [MaybeNullWhen(false)] out FixedPoint8)|文字列をdecimalに変換後、FixedPoint8にキャストします。戻り値は、変換が成功したか失敗したかを示します|
 |Round()|最も近い整数に値を丸めます|
