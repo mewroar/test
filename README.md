@@ -792,7 +792,7 @@ byte[]でReader,Writer,Deserialize,Serializeの比較
 |FromDouble(double)|doubleをFixedPoint8の値で返します|
 |FromDecimal(decimal)|decimalのFixedPoint8の値で返します|
 |Parse(string)|文字列をFixedPoint8に変換しようとします|
-|Parse(ReadOnlySpan<char>)|読み取り専用のcharを、FixedPoint8に変換しようとします|
+|Parse(ReadOnlySpan&lt;char&gt;)|読み取り専用のcharを、FixedPoint8に変換しようとします|
 |Parse(ReadOnlySpan<byte>)|読み取り専用のbyteを、FixedPoint8に変換しようとします|
 |TryParse([NotNullWhen(true)] string?, out FixedPoint8)|文字列をFixedPoint8に変換しようとします。戻り値は、変換が成功したか失敗したかを示します|
 |TryParse(ReadOnlySpan<char>, out FixedPoint8)|読み取り専用のcharを、FixedPoint8に変換しようとします。戻り値は、変換が成功したか失敗したかを示します|
