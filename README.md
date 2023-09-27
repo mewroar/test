@@ -835,11 +835,9 @@ byte[]でReader,Writer,Deserialize,Serializeの比較
 |WriteUtf8(ref Span&lt;byte&gt;)|Span&lt;byte&gt;のLengthを返します|
 |ToString(string?, IFormatProvider?)|FixedPoint8からstringに変換します ※速度最適化未実施|
 |Parse(ReadOnlySpan&lt;char&gt;, IFormatProvider?)|ReadOnlySpan&lt;char&gt;をdecimalに変換後、FixedPoint8にキャストします※速度最適化未実施|
-|TryParse(ReadOnlySpan&lt;char&gt;, IFormatProvider?, [MaybeNullWhen(false)] out FixedPoint8)|ReadOnlySpan&lt;char&gt;をdecimalに変換後、FixedPoint8にキャストします。失敗時はfalseを返します ※ 速度最適化未実施
-|
+|TryParse(ReadOnlySpan&lt;char&gt;, IFormatProvider?, [MaybeNullWhen(false)] out FixedPoint8)|ReadOnlySpan&lt;char&gt;をdecimalに変換後、FixedPoint8にキャストします。失敗時はfalseを返します ※ 速度最適化未実施|
 |Parse(string, IFormatProvider?)|stringをdecimalに変換後、FixedPoint8にキャストします※速度最適化未実施|
-|TryParse([NotNullWhen(true)] string?, IFormatProvider?, [MaybeNullWhen(false)] out FixedPoint8)|stringをdecimalに変換後、FixedPoint8にキャストします。失敗時はfalseを返します ※ 速度最適化未実施
-|
+|TryParse([NotNullWhen(true)] string?, IFormatProvider?, [MaybeNullWhen(false)] out FixedPoint8)|stringをdecimalに変換後、FixedPoint8にキャストします。失敗時はfalseを返します ※ 速度最適化未実施|
 |Round()|最も近い整数に値を丸めます|
 |Round(int)|指定した小数点以下の桁数に値を丸めます|
 |Floor()|指定した倍精度浮動小数点数以下の数のうち、最大の整数値を返します|
