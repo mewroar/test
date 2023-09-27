@@ -10,6 +10,8 @@ Gitan.FixedPoint8は、固定小数点で-92233720368.54775808～92233720368.547
 
 ・ Gitan.FixedPoint8はuncheckedで動きます、オーバーフローが発生する値でエラーは発生しませんのでご注意ください。
 
+・ 機能のいくつかはdecimalを使用した実装になっているため、十分な速度がでません。(速度最適化未実施と記載のある機能が該当します)
+
 
 ■ **使用方法**
 
@@ -761,27 +763,27 @@ byte[]でReader,Writer,Deserialize,Serializeの比較
 |decimal                     |
 
 
-|                    オペレーター| 
-| -------------------------- |
-|+(FixedPoint8,FixedPoint8)  |
-|-(FixedPoint8,FixedPoint8)  |
-|*(FixedPoint8,long)         |
-|*(FixedPoint8,ulong)        |
+|                    オペレーター| 説明|
+| -------------------------- | -------------------------- |
+|+(FixedPoint8,FixedPoint8)  | |
+|-(FixedPoint8,FixedPoint8)  | |
+|*(FixedPoint8,long)         | |
+|*(FixedPoint8,ulong)        | |
 |*(FixedPoint8,FixedPoint8)  |※速度最適化未実施|
-|/(FixedPoint8,long)         |
-|/(FixedPoint8,ulong)        |
+|/(FixedPoint8,long)         | |
+|/(FixedPoint8,ulong)        | |
 |/(FixedPoint8,FixedPoint8)  |※速度最適化未実施|
-|==(FixedPoint8,FixedPoint8) |
-|!=(FixedPoint8,FixedPoint8) |
-|<(FixedPoint8,FixedPoint8)  |
-|<=(FixedPoint8,FixedPoint8) |
-|>(FixedPoint8,FixedPoint8)  |
-|>=(FixedPoint8,FixedPoint8) |
-|%(FixedPoint8,FixedPoint8)  |
-|++(FixedPoint8)             |
-|--(FixedPoint8)             |
-|+(FixedPoint8)              |
-|-(FixedPoint8)              |
+|==(FixedPoint8,FixedPoint8) | |
+|!=(FixedPoint8,FixedPoint8) | |
+|<(FixedPoint8,FixedPoint8)  | |
+|<=(FixedPoint8,FixedPoint8) | |
+|>(FixedPoint8,FixedPoint8)  | |
+|>=(FixedPoint8,FixedPoint8) | |
+|%(FixedPoint8,FixedPoint8)  | |
+|++(FixedPoint8)             | |
+|--(FixedPoint8)             | |
+|+(FixedPoint8)              | |
+|-(FixedPoint8)              | |
 
 
 |メソッド|説明|
