@@ -838,14 +838,14 @@ byte[]でReader,Writer,Deserialize,Serializeの比較
 |TryParse(ReadOnlySpan&lt;char&gt;, IFormatProvider?, [MaybeNullWhen(false)] out FixedPoint8)|ReadOnlySpan&lt;char&gt;をdecimalに変換後、FixedPoint8にキャストします。失敗時はfalseを返します ※ 速度最適化未実施|
 |Parse(string, IFormatProvider?)|stringをdecimalに変換後、FixedPoint8にキャストします※速度最適化未実施|
 |TryParse([NotNullWhen(true)] string?, IFormatProvider?, [MaybeNullWhen(false)] out FixedPoint8)|stringをdecimalに変換後、FixedPoint8にキャストします。失敗時はfalseを返します ※ 速度最適化未実施|
-|Round()|最も近い整数に値を丸めます|
-|Round(int)|指定した小数点以下の桁数に値を丸めます|
-|Floor()|指定した倍精度浮動小数点数以下の数のうち、最大の整数値を返します|
-|Floor(int)|指定した小数点以下の桁数に最大の値を返します|
-|Truncate()|指定した10進数の整数部を計算します|
-|Truncate(int)|指定した小数点以下の桁数に値を計算します|
-|Ceiling()|指定した 10進数以上の数のうち、最小の整数値を返します|
-|Ceiling(int)|指定した倍精度浮動小数点数以上の数のうち、最小の値を返します|
+|Round()|整数に値を丸めます。丸め方法は四捨五入で0.5の時はは1つ上の桁が偶数になるように丸めます(銀行丸め)|
+|Round(int)|指定した小数点以下の桁数に値を丸めます。丸め方法は四捨五入で0.5の時はは1つ上の桁が偶数になるように丸めます(銀行丸め)|
+|Floor()|整数に値を丸めます。丸め方法は負の最大値に近づくように丸めます|
+|Floor(int)|指定した小数点以下の桁数に値を丸めます。丸め方法は負の最大値に近づくように丸めます|
+|Truncate()|整数に値を丸めます。丸め方法は0に近づくように丸めます|
+|Truncate(int)|指定した小数点以下の桁数に値を丸めます。丸め方法は0に近づくように丸めます|
+|Ceiling()|整数に値を丸めます。丸め方法は正の最大値に近づくように丸めます|
+|Ceiling(int)|指定した小数点以下の桁数に値を丸めます。丸め方法は正の最大値に近づくように丸めます|
 
 
 ■ 実装説明
