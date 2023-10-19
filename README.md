@@ -136,10 +136,10 @@ public class SortedDictionaryBench
 Benchmarkの結果、Gitan.SortedDictionary.SortedDictionaryは
 System.Collections.Generic.SortedDictionaryから30％程度速度アップしました。
 
-//|                     Method |      Mean |     Error |    StdDev |
-//|--------------------------- |----------:|----------:|----------:|
-//|      SortedDictionaryBench | 10.601 ms | 0.1160 ms | 0.1029 ms |
-//| GitanSortedDictionaryBench |  7.758 ms | 0.0722 ms | 0.0640 ms |
+|                     Method |      Mean |     Error |    StdDev |
+|--------------------------- |----------:|----------:|----------:|
+|      SortedDictionaryBench | 10.601 ms | 0.1160 ms | 0.1029 ms |
+| GitanSortedDictionaryBench |  7.758 ms | 0.0722 ms | 0.0640 ms |
 
 
 ■ **Api定義**
