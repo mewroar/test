@@ -9,8 +9,11 @@ Gitan.SortedDictionaryは、keyに基づいて並び替えを行うクラスで�
 System.Collections.Generic.SortedDictionary<TKey,TValue>の高速版です。
 
 以下の制限事項があります。
- ・TKeyはstruct 限定です。
+
+ ・TKeyはstruct限定です。
+
  ・TkeyはIComparable<TKey>を継承している必要があります。
+
  ・Tkeyの比較条件は、Comparerで指定することはできません。IComparableでの比較のみとなります。
 
 
