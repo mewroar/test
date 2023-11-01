@@ -6,7 +6,10 @@ Gitan.SortedDictionaryは、keyに基づいて並び替えを行うクラスで�
 
 ■ **仕様**
 
-・ 
+・ System.Collections.Generic.SortedDictionary<TKey,TValue> の高速版です。以下の制限事項があります。
+　・ TKey は struct 限定です。
+　・ Tkey は IComparable<TKey> を継承している必要があります。
+　・ Tkey の比較条件は、Comparer で指定することはできません。IComparableでの比較のみとなります。
 
 
 ■ **使用方法**
@@ -89,46 +92,61 @@ public class SortedDictionaryBench
     }
 
     [Benchmark]
-    public void SortedDictionaryBench()
+    public System.Collections.Generic.SortedDictionary<int,int> SystemSortedDictionaryBench()
     {
-        var priceSizeArray = GetPriceSize();
-
-        var dic = new System.Collections.Generic.SortedDictionary<int, int>();
-
-        foreach (var priceSize in priceSizeArray)
+        foreach (var priceSize in _priceSizeArray)
         {
             var (price, size) = priceSize;
 
             if (size == 0)
             {
-                dic.Remove(price);
+                SystemDic.Remove(price);
             }
             else
             {
-                dic[price] = size;
+                SystemDic[price] = size;
             }
+        }
+        return SystemDic;
+    }
+
+   [Benchmark]
+    public Gitan.SortedDictionary.SortedDictionary<int,int> GitanSortedDictionaryBench()
+    {
+        foreach (var priceSize in _priceSizeArray)
+        {
+            var (price, size) = priceSize;
+
+            if (size == 0)
+            {
+                gitanDic.Remove(price);
+            }
+            else
+            {
+                gitanDic[price] = size;
+            }
+        }
+        return gitanDic;
+    }
+
+
+    [Benchmark]
+    public void SystemSortedDictionaryBenchForeach()
+    {
+        int sum = 0;
+        foreach (var priceSize in SystemDic)
+        {
+            sum += priceSize.Value;
         }
     }
 
     [Benchmark]
-    public void GitanSortedDictionaryBench()
+    public void GitanSortedDictionaryBenchForeach()
     {
-        var priceSizeArray = GetPriceSize();
-
-        var dicGitan = new Gitan.SortedDictionary.SortedDictionary<int, int>(false);
-
-        foreach (var priceSize in priceSizeArray)
+        int sum = 0;
+        foreach (var priceSize in gitanDic)
         {
-            var (price, size) = priceSize;
-
-            if (size == 0)
-            {
-                dicGitan.Remove(price);
-            }
-            else
-            {
-                dicGitan.AddOrChangeValue(price, size);
-            }
+            sum += priceSize.Value;
         }
     }
 }
@@ -141,12 +159,22 @@ System.Collections.Generic.SortedDictionaryから30％程度速度アップし�
 |      SortedDictionaryBench | 10.601 ms | 0.1160 ms | 0.1029 ms |
 | GitanSortedDictionaryBench |  7.758 ms | 0.0722 ms | 0.0640 ms |
 
+|                            Method |            Mean |          Error |        StdDev |
+|---------------------------------- |----------------:|---------------:|--------------:|
+|SystemSortedDictionaryBenchForeach |        25.36 ns |       0.276 ns |      0.244 ns |
+| GitanSortedDictionaryBenchForeach |        13.96 ns |       0.390 ns |      1.118 ns |
 
 ■ **Api定義**
+|コンストラクター|説明|
+| -------- | --- |
+|SortedDictionary(bool reverse)|SortedDictionary<TKey,TValue>を使用する。trueを送ると降順になる
+|SortedDictionary(System.Collections.Generic.IDictionary<TKey, TValue> dictionary, bool reverse)|SortedDictionary<Tkey,TValue>から要素をコピーして格納。キーの型の既定の IDictionary<TKey,TValue>を使用する。trueを送ると降順になる|
+
 
 |プロパティ|説明|
 | ------- | ---- |
 |Count|SortedDictionary<TKey,TValue> に格納されているキー/値ペアの数を返します|
+|IsReadOnly|falseを返します|
 |Compare|指定された値と比較し、小さければ-1,同じなら0,大きければ1を返します|
 |TotalCount|SortedDictionary<TKey,TValue> に格納されているキー/値ペアの数を返します|
 
@@ -157,12 +185,13 @@ System.Collections.Generic.SortedDictionaryから30％程度速度アップし�
 |Add(KeyValuePair<TKey, TValue> item)|指定したキーおよび値をSortedDictionary<TKey,TValue> に追加します|
 |TryAdd(TKey key, TValue value)|指定したキーおよび値をSortedDictionary<TKey,TValue> に追加します。失敗時はfalseを返します|
 |TryAdd(KeyValuePair<TKey, TValue> item)|指定したキーおよび値をSortedDictionary<TKey,TValue> に追加します。失敗時はfalseを返します|
-|AddOrChangeValue|指定したキーおよび値をSortedDictionary<TKey,TValue> に追加,変更します|
+|AddOrChangeValue(TKey key, TValue value)|指定したキーおよび値をSortedDictionary<TKey,TValue> に追加,変更します|
+|AddOrChangeValue(KeyValuePair<TKey, TValue> item)|指定したキーおよび値をSortedDictionary<TKey,TValue> に追加,変更します|
 |AddCore|指定したキーおよび値をSortedDictionary<TKey,TValue> に追加します|
-|CopyTo(KeyValuePair<TKey, TValue>[] array)|指定したインデックスを開始位置として、KeyValuePair<TKey, TValue>をコピーします|
+|CopyTo(KeyValuePair<TKey, TValue>[] array)|KeyValuePair<TKey, TValue>をコピーします|
 |CopyTo(KeyValuePair<TKey, TValue>[] array, int index)|指定したインデックスを開始位置として、KeyValuePair<TKey, TValue>をコピーします|
 |CopyTo(KeyValuePair<TKey, TValue>[] array, int index, int count)|指定したインデックスを開始位置として、KeyValuePair<TKey, TValue>をコピーします|
-|RemoveOrUnder|指定した値がKeyの最初の値より小さければSortedDictionary<TKey,TValue>から削除します|
+|RemoveOrUnder(TKey orUnder)|指定したキーより小さいキーはSortedDictionary<TKey,TValue>から削除します|
 |Remove(TKey key)|指定したキーを持つ要素をSortedDictionary<TKey,TValue>から削除します|
 |Remove(KeyValuePair<TKey, TValue> item)|指定したキーを持つ要素をSortedDictionary<TKey,TValue>から削除します|
 |Clear|すべての要素を削除します|
@@ -170,17 +199,9 @@ System.Collections.Generic.SortedDictionaryから30％程度速度アップし�
 |ContainsKey(TKey key)|指定したkeyと同じ値があるかどうかを返します|
 |TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)|指定したキーに関連付けられている値を返します|
 |GetEnumerator|foreachの結果を返します|
-|FindNode(TKey key)|指定したキーがあるかどうかを返します|
 |Any|rootがNullじゃなければTrueを返します|
-|First|最初のKeyのKeyValuePair<TKey, TValue>を返します|
-|Last|最後のKeyのKeyValuePair<TKey, TValue>を返します|
-|GetFirstKey|最初のKeyの値を返します|
-|GetLastKey|最後のKeyの値を返します|
+|First|最初のキーのKeyValuePair<TKey, TValue>を返します|
+|Last|最後のキーのKeyValuePair<TKey, TValue>を返します|
+|GetFirstKey|最初のキーの値を返します|
+|GetLastKey|最後のキーの値を返します|
 |Find(TKey key)|指定したキーがあるかどうかを返します|
-|Log2|指定された値の整数の対数を返します|
-
-
-
-■ 実装説明
-
-・
