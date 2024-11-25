@@ -23,6 +23,7 @@ BenchmarkDotNet.Running.BenchmarkRunner.Run<（実行したいベンチマーク
 
 
 ■[ByteArrayBench](https://gitan.dev/?p=213)
+
 　Utf8のbyte[]のコマンドを、どのコマンドか調べるために比較コード
 　switch/if、SequenceEquaを使って
 　書きやすさ、読みやすさ、パフォーマンスを見たベンチマーク
@@ -30,35 +31,49 @@ BenchmarkDotNet.Running.BenchmarkRunner.Run<（実行したいベンチマーク
 
 ■ByteArrayROSSplitBench
 　
-■DivBench
+■[DivBench](https://gitan.dev/?p=275)
+
 　Int、UInt、Long、ULongの整数の割り算を比較したベンチマーク
 
 
-■ForForeachBench
-■HighPerformanceStringBench
+■[ForForeachBench](https://gitan.dev/?p=180)
+
+　配列かListをfor、foreachで要素を足していくベンチマーク
+
+■[HighPerformanceStringBench](https://gitan.dev/?p=336)
 　stringの作成を比較したベンチマーク
 
 
 ■IntLongWriteUtf8
-■ListSortBench
+
+■[ListSortBench](https://gitan.dev/?p=124)
+
 　Listの並び替えの速度を比較したベンチマーク
 
 ■ReferenceUpdateBench
-■SpanBench
+
+■[SpanBench](https://gitan.dev/?p=55)
+
+ byte[]のCopyでSpanを使った速度比較
+
 ■SpanToArrayDirectArrayBench
 
-■StreamCopyBench
+■[StreamCopyBench](https://gitan.dev/?p=180)
+
 　Streamのデータを読み込む方法を比較したベンチマーク
 
-■StringDollerBench
+■[StringDollerBench](https://gitan.dev/?p=148)
+
 　文字列結合のパフォーマンス
 
-■TenToTheNConversionBench　
+■[TenToTheNConversionBench](https://gitan.dev/?p=230)　
+
 　longで10のn乗するベンチマーク
+
 ■ToStringToArrayBench
 ■UnixTimeBench
 ■Utf8Bench
 　Utf8文字列の作り方とパフォーマンス
 
-■VariousBench
+■[VariousBench](https://gitan.dev/?p=109)
 　C#のいろいろな、遅くなる要素のベンチマーク
