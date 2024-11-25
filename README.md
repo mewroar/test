@@ -28,21 +28,19 @@ BenchmarkDotNet.Running.BenchmarkRunner.Run<（実行したいベンチマーク
 　switch/if、SequenceEquaを使って
 　書きやすさ、読みやすさ、パフォーマンスを見たベンチマーク
 
-
 ■ByteArrayROSSplitBench
 　
 ■[DivBench](https://gitan.dev/?p=275)
 
 　Int、UInt、Long、ULongの整数の割り算を比較したベンチマーク
 
-
 ■[ForForeachBench](https://gitan.dev/?p=180)
 
 　配列かListをfor、foreachで要素を足していくベンチマーク
 
 ■[HighPerformanceStringBench](https://gitan.dev/?p=336)
-　stringの作成を比較したベンチマーク
 
+　stringの作成を比較したベンチマーク
 
 ■IntLongWriteUtf8
 
@@ -71,9 +69,13 @@ BenchmarkDotNet.Running.BenchmarkRunner.Run<（実行したいベンチマーク
 　longで10のn乗するベンチマーク
 
 ■ToStringToArrayBench
+
 ■UnixTimeBench
-■Utf8Bench
+
+■[Utf8Bench](https://gitan.dev/?p=320)
+
 　Utf8文字列の作り方とパフォーマンス
 
 ■[VariousBench](https://gitan.dev/?p=109)
+
 　C#のいろいろな、遅くなる要素のベンチマーク
