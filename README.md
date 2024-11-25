@@ -22,12 +22,10 @@ BenchmarkDotNet.Running.BenchmarkRunner.Run<（実行したいベンチマーク
 
 
 
-■ByteArrayBench
+■[ByteArrayBench](https://gitan.dev/?p=213)
 　Utf8のbyte[]のコマンドを、どのコマンドか調べるために比較コード
 　switch/if、SequenceEquaを使って
 　書きやすさ、読みやすさ、パフォーマンスを見たベンチマーク
-
-　詳細 : [ByteArrayBench](https://gitan.dev/?p=213)
 
 
 ■ByteArrayROSSplitBench
