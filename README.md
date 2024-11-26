@@ -1,24 +1,28 @@
 
 ■Benchmarkとは
+
 Benchmarkは、いろんな方法のパフォーマンスを比較するためのベンチマークです。
 ベンチマーク用のライブラリ「BenchmarkDotNet」を使用して実装されています。
 
 プロジェクトURL : [https://github.com/gitan-dev/Benchmark](https://github.com/gitan-dev/Benchmark)
 
 ■前提条件
+
 ・計測したいバージョンに応じた.NET SDKをインストール
 ・BenchmarkDotNetライブラリ
 
 
+■使用方法
 
+・全てのベンチマークを実行するコマンド
 
-全てのベンチマークを実行するコマンド
+　コマンドプロンプトでBenchmark.csprojがあるプロジェクトのルートディレクトリまで移動して下記を実行
 
-dotnet run -c Release -f net9.0 --filter "*" --runtimes net8.0 net9.0
+　dotnet run -c Release -f net9.0 --filter "*" --runtimes net8.0 net9.0
 
-特定のベンチマークを実行する
+・特定のベンチマークを実行する
 
-BenchmarkDotNet.Running.BenchmarkRunner.Run<（実行したいベンチマーク）>();
+　dotnet run -c Release -f net9.0 --filter *ByteArrayBench.* --runtimes net8.0 net9.0
 
 
 
@@ -201,6 +205,26 @@ BenchmarkDotNet.Running.BenchmarkRunner.Run<（実行したいベンチマーク
 ■[ListSortBench](https://gitan.dev/?p=124)
 
 　Listの並び替えの速度を比較したベンチマーク
+
+    [Benchmark]
+    public List<int> ListSort()
+    {
+        var list = _originalList.ToList();
+
+        list.Sort();
+
+        return list;
+    }
+
+| Method                  | Job        | Runtime  | Mean     | Error     | StdDev    | Ratio | RatioSD |
+|------------------------ |----------- |--------- |---------:|----------:|----------:|------:|--------:|
+| ListSort                | Job-DDXAAB | .NET 8.0 | 4.401 ms | 0.0776 ms | 0.0688 ms |  1.00 |    0.02 |
+| ListSort                | Job-WLOQWX | .NET 9.0 | 4.348 ms | 0.0178 ms | 0.0157 ms |  0.99 |    0.02 |
+| ListSortReverse         | Job-DDXAAB | .NET 8.0 | 4.449 ms | 0.0576 ms | 0.0539 ms |  1.00 |    0.02 |
+| ListSortReverse         | Job-WLOQWX | .NET 9.0 | 4.406 ms | 0.0164 ms | 0.0145 ms |  0.99 |    0.01 |
+| ListSortReverseComparer | Job-DDXAAB | .NET 8.0 | 5.320 ms | 0.0347 ms | 0.0325 ms |  1.00 |    0.01 |
+| ListSortReverseComparer | Job-WLOQWX | .NET 9.0 | 4.613 ms | 0.0212 ms | 0.0198 ms |  0.87 |    0.01 |
+
 
 ■[ReferenceUpdateBench](https://gitan.dev/?p=171)
 
