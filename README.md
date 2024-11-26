@@ -28,13 +28,79 @@ BenchmarkDotNet.Running.BenchmarkRunner.Run<（実行したいベンチマーク
 　switch/if、SequenceEquaを使って
 　書きやすさ、読みやすさ、パフォーマンスを見たベンチマーク
 
+    [Benchmark]
+    public int StringSwitchBench()
+    {
+        int sum = 0;
+        sum += AnalyzeStringSwitch(_start.stringValue);
+        sum += AnalyzeStringSwitch(_show.stringValue);
+        sum += AnalyzeStringSwitch(_stop.stringValue);
+        sum += AnalyzeStringSwitch(_quit.stringValue);
+
+        return sum;
+    }
+
+| Method                        | Job        | Runtime  | Mean       | Error     | StdDev    | Median     | Ratio | RatioSD |
+|------------------------------ |----------- |--------- |-----------:|----------:|----------:|-----------:|------:|--------:|
+| StringSwitchBench             | Job-DDXAAB | .NET 8.0 |   7.044 ns | 0.1661 ns | 0.3575 ns |   7.007 ns |  1.00 |    0.07 |
+| StringSwitchBench             | Job-WLOQWX | .NET 9.0 |   7.962 ns | 0.1835 ns | 0.4502 ns |   7.854 ns |  1.13 |    0.08 |
+| StringSwitchBench             | InProcess  | .NET 8.0 |   6.754 ns | 0.1600 ns | 0.2490 ns |   6.796 ns |  0.96 |    0.06 |
+|                               |            |          |            |           |           |            |       |         |
+| StringIfBench                 | Job-DDXAAB | .NET 8.0 |   6.836 ns | 0.1606 ns | 0.4029 ns |   6.765 ns |  1.00 |    0.08 |
+| StringIfBench                 | Job-WLOQWX | .NET 9.0 |   7.461 ns | 0.1703 ns | 0.2273 ns |   7.403 ns |  1.10 |    0.07 |
+| StringIfBench                 | InProcess  | .NET 8.0 |   7.370 ns | 0.1709 ns | 0.2451 ns |   7.324 ns |  1.08 |    0.07 |
+|                               |            |          |            |           |           |            |       |         |
+| StaticBytesSequenceEqualBench | Job-DDXAAB | .NET 8.0 | 167.429 ns | 3.3318 ns | 6.4192 ns | 165.706 ns |  1.00 |    0.05 |
+| StaticBytesSequenceEqualBench | Job-WLOQWX | .NET 9.0 |  62.324 ns | 0.3659 ns | 0.2857 ns |  62.367 ns |  0.37 |    0.01 |
+| StaticBytesSequenceEqualBench | InProcess  | .NET 8.0 | 164.451 ns | 3.3063 ns | 5.3391 ns | 162.255 ns |  0.98 |    0.05 |
+|                               |            |          |            |           |           |            |       |         |
+| StaticRosSequenceEqualBench   | Job-DDXAAB | .NET 8.0 |  20.165 ns | 0.4247 ns | 0.9673 ns |  19.744 ns |  1.00 |    0.07 |
+| StaticRosSequenceEqualBench   | Job-WLOQWX | .NET 9.0 |  18.088 ns | 0.1299 ns | 0.1085 ns |  18.090 ns |  0.90 |    0.04 |
+| StaticRosSequenceEqualBench   | InProcess  | .NET 8.0 |  20.198 ns | 0.3852 ns | 0.5272 ns |  20.103 ns |  1.00 |    0.05 |
+|                               |            |          |            |           |           |            |       |         |
+| StaticBytesMyEqualsBench      | Job-DDXAAB | .NET 8.0 |  18.799 ns | 0.3960 ns | 0.7724 ns |  18.741 ns |  1.00 |    0.06 |
+| StaticBytesMyEqualsBench      | Job-WLOQWX | .NET 9.0 |  16.243 ns | 0.3189 ns | 0.3412 ns |  16.091 ns |  0.87 |    0.04 |
+| StaticBytesMyEqualsBench      | InProcess  | .NET 8.0 |  17.075 ns | 0.3563 ns | 0.3659 ns |  17.208 ns |  0.91 |    0.04 |
+|                               |            |          |            |           |           |            |       |         |
+| U8BytesBench                  | Job-DDXAAB | .NET 8.0 |   9.424 ns | 0.1999 ns | 0.5300 ns |   9.326 ns |  1.00 |    0.08 |
+| U8BytesBench                  | Job-WLOQWX | .NET 9.0 |   7.160 ns | 0.1011 ns | 0.1038 ns |   7.118 ns |  0.76 |    0.04 |
+| U8BytesBench                  | InProcess  | .NET 8.0 |   8.293 ns | 0.0854 ns | 0.0713 ns |   8.311 ns |  0.88 |    0.05 |
+
+
 ■ByteArrayROSSplitBench
 
  byte[]をReadOnlySpan<byte>で分けた時と比較したベンチマーク
 
+    [Benchmark]
+    public int ReadOnlySpanSplitBench()
+    {
+        int sum = 0;
+
+        for (int i = 0; i < 100; i++)
+        {
+            ReadOnlySpanSplit(SampleBytes, out var left, out var right);
+            sum += left.Length + right.Length;
+        }
+
+        return sum;
+    }
+
+
 ■[DivBench](https://gitan.dev/?p=275)
 
 　Int、UInt、Long、ULongの整数の割り算を比較したベンチマーク
+
+    [Benchmark]
+    public int Div10IntBench()
+    {
+        int sum = 0;
+        for (int i = 0; i < 10000; i++)
+        {
+            sum += i / 10;
+        }
+        return sum;
+    }
+
 
 ■[ForForeachBench](https://gitan.dev/?p=180)
 
