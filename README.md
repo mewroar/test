@@ -8,7 +8,8 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 
 ■前提条件
 
-・計測したいバージョンに応じた.NET SDKをインストール
+・NET SDKをインストール(.net8.0 .net9.0)
+
 ・BenchmarkDotNetライブラリ
 
 
