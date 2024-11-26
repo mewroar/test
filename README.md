@@ -14,19 +14,20 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 
 ■使用方法
 
-・全てのベンチマークを実行するコマンド
+コマンドプロンプトでBenchmark.csprojがあるプロジェクトのルートディレクトリまで移動して下記を実行
 
-　コマンドプロンプトでBenchmark.csprojがあるプロジェクトのルートディレクトリまで移動して下記を実行
+・全てのベンチマークを実行するコマンド
 
 　dotnet run -c Release -f net9.0 --filter "*" --runtimes net8.0 net9.0
 
-・特定のベンチマークを実行する
+・特定のベンチマークを実行するコマンド
 
 　dotnet run -c Release -f net9.0 --filter *ByteArrayBench.* --runtimes net8.0 net9.0
 
 
+■ベンチマーク
 
-■[ByteArrayBench](https://gitan.dev/?p=213)
+・[ByteArrayBench](https://gitan.dev/?p=213)
 
 　Utf8のbyte[]のコマンドを、どのコマンドか調べるために比較コード
 　switch/if、SequenceEquaを使って
@@ -60,7 +61,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | U8BytesBench                  | Job-WLOQWX | .NET 9.0 |   7.160 ns | 0.1011 ns | 0.1038 ns |   7.118 ns |  0.76 |    0.04 |
 
 
-■ByteArrayROSSplitBench
+・ByteArrayROSSplitBench
 
  byte[]をReadOnlySpan<byte>で分けた時と比較したベンチマーク
 
@@ -87,7 +88,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | ReadOnlySpanSplitBench | Job-WLOQWX | .NET 9.0 |   439.8 ns |  3.71 ns |  2.90 ns |  0.97 |    0.02 |
 
 
-■[DivBench](https://gitan.dev/?p=275)
+・[DivBench](https://gitan.dev/?p=275)
 
 　Int、UInt、Long、ULongの整数の割り算を比較したベンチマーク
 
@@ -154,7 +155,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | PowShift1000ULongBench | Job-WLOQWX | .NET 9.0 | 2.267 us | 0.0127 us | 0.0119 us |  0.99 |    0.01 |
 
 
-■[ForForeachBench](https://gitan.dev/?p=180)
+・[ForForeachBench](https://gitan.dev/?p=180)
 
 　配列かListをfor、foreachで要素を足していくベンチマーク
 
@@ -184,11 +185,43 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | QueueForEachBench       | Job-WLOQWX | .NET 9.0 | 218.69 ns | 4.135 ns |  3.868 ns |  0.98 |    0.03 |
 
 
-■[HighPerformanceStringBench](https://gitan.dev/?p=336)
+・[HighPerformanceStringBench](https://gitan.dev/?p=336)
 
 　stringの作成を比較したベンチマーク
 
-■IntLongWriteUtf8
+    [Benchmark]
+    public string ToHexString_SpanBench() => ToHexString_Span(_hash);
+
+    public static string ToHexString_Span(ReadOnlySpan<byte> bytes)
+    {
+        const string HexValues = "0123456789abcdef";
+
+        Span<char> chars = stackalloc char[bytes.Length * 2];
+
+        for (int i = 0; i < bytes.Length; i++)
+        {
+            var b = bytes[i];
+
+            var i2 = i * 2;
+            chars[i2] = HexValues[b >> 4];
+            chars[i2 + 1] = HexValues[b & 0xF];
+        }
+
+        return new string(chars);
+    }
+
+| Method                        | Job        | Runtime  | Mean      | Error     | StdDev    | Median    | Ratio | RatioSD |
+|------------------------------ |----------- |--------- |----------:|----------:|----------:|----------:|------:|--------:|
+| ToHexStringBench              | Job-PUSYPP | .NET 8.0 | 471.57 ns |  7.829 ns |  9.320 ns | 469.43 ns |  1.00 |    0.03 |
+| ToHexStringBench              | Job-FMYSKB | .NET 9.0 | 478.20 ns |  9.401 ns | 11.545 ns | 476.75 ns |  1.01 |    0.03 |
+| ToHexString_SpanBench         | Job-PUSYPP | .NET 8.0 |  47.45 ns |  0.983 ns |  1.133 ns |  47.04 ns |  1.00 |    0.03 |
+| ToHexString_SpanBench         | Job-FMYSKB | .NET 9.0 |  48.87 ns |  0.978 ns |  1.201 ns |  48.78 ns |  1.03 |    0.03 |
+| ToHexString_CreateBench       | Job-PUSYPP | .NET 8.0 |  39.58 ns |  0.258 ns |  0.201 ns |  39.50 ns |  1.00 |    0.01 |
+| ToHexString_CreateBench       | Job-FMYSKB | .NET 9.0 |  41.52 ns |  0.786 ns |  1.335 ns |  41.30 ns |  1.05 |    0.03 |
+| ToHexString_CreateUnsafeBench | Job-PUSYPP | .NET 8.0 |  32.07 ns |  0.220 ns |  0.205 ns |  32.06 ns |  1.00 |    0.01 |
+| ToHexString_CreateUnsafeBench | Job-FMYSKB | .NET 9.0 |  34.86 ns |  1.678 ns |  4.869 ns |  33.40 ns |  1.09 |    0.15 |
+
+・IntLongWriteUtf8
 
 | Method        | Job        | Runtime  | Mean     | Error     | StdDev    | Median   | Ratio | RatioSD |
 |-------------- |----------- |--------- |---------:|----------:|----------:|---------:|------:|--------:|
@@ -202,7 +235,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | LongUtf8Write | Job-WLOQWX | .NET 9.0 | 7.825 ns | 0.1017 ns | 0.0951 ns | 7.819 ns |  1.01 |    0.03 |
 
 
-■[ListSortBench](https://gitan.dev/?p=124)
+・[ListSortBench](https://gitan.dev/?p=124)
 
 　Listの並び替えの速度を比較したベンチマーク
 
@@ -226,7 +259,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | ListSortReverseComparer | Job-WLOQWX | .NET 9.0 | 4.613 ms | 0.0212 ms | 0.0198 ms |  0.87 |    0.01 |
 
 
-■[ReferenceUpdateBench](https://gitan.dev/?p=171)
+・[ReferenceUpdateBench](https://gitan.dev/?p=171)
 
 | Method    | Job        | Runtime  | Mean       | Error    | StdDev   | Ratio | RatioSD |
 |---------- |----------- |--------- |-----------:|---------:|---------:|------:|--------:|
@@ -236,7 +269,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | Update    | Job-WLOQWX | .NET 9.0 |   887.3 ns | 17.51 ns | 16.38 ns |  1.07 |    0.02 |
 
 　
-■[SpanBench](https://gitan.dev/?p=55)
+・[SpanBench](https://gitan.dev/?p=55)
 
 　byte[]のCopyでSpanを使った速度比較
 
@@ -248,7 +281,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | CopySpan  | Job-WLOQWX | .NET 9.0 | 29.47 ns | 0.399 ns | 0.373 ns |  0.99 |    0.02 |
 
 
-■SpanToArrayDirectArrayBench
+・SpanToArrayDirectArrayBench
 
  longをSpan<byte>とbyte[]に変換した場合の比較ベンチマーク
  
@@ -422,7 +455,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | DirectArray | Job-WLOQWX | .NET 9.0 | 12.59 ns | 0.271 ns | 0.333 ns |  1.06 |    0.03 |
 
 
-■[StreamCopyBench](https://gitan.dev/?p=180)
+・[StreamCopyBench](https://gitan.dev/?p=180)
 
 　Streamのデータを読み込む方法を比較したベンチマーク
 
@@ -440,7 +473,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | StringStreamCopy          | Job-WLOQWX | .NET 9.0 | 548.01 ns | 10.706 ns | 10.514 ns | 544.07 ns |  0.90 |    0.04 |
 
 
-■[StringDollerBench](https://gitan.dev/?p=148)
+・[StringDollerBench](https://gitan.dev/?p=148)
 
 　文字列結合のパフォーマンス
 
@@ -456,7 +489,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | DollarFormat5 | Job-WLOQWX | .NET 9.0 | 27.381 ms | 0.2700 ms | 0.2526 ms |  0.60 |    0.01 |
 
 
-■[TenToTheNConversionBench](https://gitan.dev/?p=230)　
+・[TenToTheNConversionBench](https://gitan.dev/?p=230)　
 
 　longで10のn乗するベンチマーク
 
@@ -480,7 +513,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | RosBench                | Job-WLOQWX | .NET 9.0 |  0.2546 ns | 0.0277 ns | 0.0447 ns |  0.2346 ns |  1.09 |    0.27 |
 
 
-■ToStringToArrayBench
+・ToStringToArrayBench
 
 | Method                 | Job        | Runtime  | Mean       | Error     | StdDev    | Ratio | RatioSD |
 |----------------------- |----------- |--------- |-----------:|----------:|----------:|------:|--------:|
@@ -494,15 +527,76 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | FixedPointReturnBuffer | Job-WLOQWX | .NET 9.0 |   8.733 ns | 0.1392 ns | 0.1162 ns |  1.02 |    0.03 |
 
 
-■[UnixTimeBench](https://gitan.dev/?p=358)
+・[UnixTimeBench](https://gitan.dev/?p=358)
 
 　UnixTimeを作る方法のベンチマーク
 
-■[Utf8Bench](https://gitan.dev/?p=320)
+    private static DateTime _unixTime_BaseTime = new DateTime(1970, 1, 1);
+
+    [Benchmark]
+    public long A_DateTime_Now_TimeSpan_TotalMilliseconds() =>
+        (long)(DateTime.Now.ToUniversalTime().Subtract(_unixTime_BaseTime).TotalMilliseconds);
+
+
+| Method                                         | Job        | Runtime  | Mean     | Error    | StdDev   | Ratio |
+|----------------------------------------------- |----------- |--------- |---------:|---------:|---------:|------:|
+| A_DateTime_Now_TimeSpan_TotalMilliseconds      | Job-QHJRNO | .NET 8.0 | 46.32 ns | 0.271 ns | 0.241 ns |  1.00 |
+| A_DateTime_Now_TimeSpan_TotalMilliseconds      | Job-POTQGX | .NET 9.0 | 49.01 ns | 0.610 ns | 0.541 ns |  1.06 |
+| A_DateTime_Now_TimeSpan_TotalMilliseconds      | InProcess  | .NET 9.0 | 52.39 ns | 0.491 ns | 0.436 ns |  1.13 |
+|                                                |            |          |          |          |          |       |
+| B_DateTime_UtcNow_TimeSpan_TotalMilliseconds   | Job-QHJRNO | .NET 8.0 | 32.06 ns | 0.194 ns | 0.172 ns |  1.00 |
+| B_DateTime_UtcNow_TimeSpan_TotalMilliseconds   | Job-POTQGX | .NET 9.0 | 35.38 ns | 0.301 ns | 0.282 ns |  1.10 |
+| B_DateTime_UtcNow_TimeSpan_TotalMilliseconds   | InProcess  | .NET 9.0 | 36.49 ns | 0.195 ns | 0.173 ns |  1.14 |
+|                                                |            |          |          |          |          |       |
+| C_DateTimeOffset_UtcNow_ToUnixTimeMilliseconds | Job-QHJRNO | .NET 8.0 | 28.77 ns | 0.319 ns | 0.283 ns |  1.00 |
+| C_DateTimeOffset_UtcNow_ToUnixTimeMilliseconds | Job-POTQGX | .NET 9.0 | 28.29 ns | 0.171 ns | 0.160 ns |  0.98 |
+| C_DateTimeOffset_UtcNow_ToUnixTimeMilliseconds | InProcess  | .NET 9.0 | 31.31 ns | 0.157 ns | 0.139 ns |  1.09 |
+|                                                |            |          |          |          |          |       |
+| D_DateTime_UtcNow_SelfCalc                     | Job-QHJRNO | .NET 8.0 | 28.03 ns | 0.228 ns | 0.213 ns |  1.00 |
+| D_DateTime_UtcNow_SelfCalc                     | Job-POTQGX | .NET 9.0 | 28.22 ns | 0.174 ns | 0.154 ns |  1.01 |
+| D_DateTime_UtcNow_SelfCalc                     | InProcess  | .NET 9.0 | 29.63 ns | 0.101 ns | 0.094 ns |  1.06 |
+
+
+・[Utf8Bench](https://gitan.dev/?p=320)
 
 　Utf8文字列の作り方とパフォーマンス
 
-■[VariousBench](https://gitan.dev/?p=109)
+| Method                           | Job        | Runtime  | Mean      | Error    | StdDev   | Ratio | RatioSD |
+|--------------------------------- |----------- |--------- |----------:|---------:|---------:|------:|--------:|
+| GetBytes_StringSomeAdd           | Job-ZUTAWM | .NET 8.0 | 212.34 ns | 1.512 ns | 1.263 ns |  1.00 |    0.01 |
+| GetBytes_StringSomeAdd           | Job-XLZJOB | .NET 9.0 | 193.92 ns | 3.516 ns | 3.288 ns |  0.91 |    0.02 |
+| GetBytes_StringSomeAdd           | InProcess  | .NET 9.0 | 248.77 ns | 3.170 ns | 2.647 ns |  1.17 |    0.01 |
+|                                  |            |          |           |          |          |       |         |
+| GetBytes_StringBuilder           | Job-ZUTAWM | .NET 8.0 | 156.38 ns | 3.040 ns | 2.844 ns |  1.00 |    0.02 |
+| GetBytes_StringBuilder           | Job-XLZJOB | .NET 9.0 | 153.45 ns | 2.915 ns | 2.726 ns |  0.98 |    0.02 |
+| GetBytes_StringBuilder           | InProcess  | .NET 9.0 | 175.66 ns | 3.558 ns | 3.328 ns |  1.12 |    0.03 |
+|                                  |            |          |           |          |          |       |         |
+| GetBytes_StringPlusToUtf8        | Job-ZUTAWM | .NET 8.0 | 174.11 ns | 2.562 ns | 2.271 ns |  1.00 |    0.02 |
+| GetBytes_StringPlusToUtf8        | Job-XLZJOB | .NET 9.0 | 156.10 ns | 1.268 ns | 1.124 ns |  0.90 |    0.01 |
+| GetBytes_StringPlusToUtf8        | InProcess  | .NET 9.0 | 194.36 ns | 3.882 ns | 3.632 ns |  1.12 |    0.02 |
+|                                  |            |          |           |          |          |       |         |
+| GetBytes_DollarStringToUtf8      | Job-ZUTAWM | .NET 8.0 | 154.62 ns | 1.054 ns | 0.934 ns |  1.00 |    0.01 |
+| GetBytes_DollarStringToUtf8      | Job-XLZJOB | .NET 9.0 | 136.90 ns | 2.543 ns | 2.379 ns |  0.89 |    0.02 |
+| GetBytes_DollarStringToUtf8      | InProcess  | .NET 9.0 | 162.12 ns | 1.571 ns | 1.312 ns |  1.05 |    0.01 |
+|                                  |            |          |           |          |          |       |         |
+| GetBytes_DollarStringToAscii     | Job-ZUTAWM | .NET 8.0 | 146.38 ns | 0.885 ns | 0.828 ns |  1.00 |    0.01 |
+| GetBytes_DollarStringToAscii     | Job-XLZJOB | .NET 9.0 | 130.60 ns | 1.601 ns | 1.337 ns |  0.89 |    0.01 |
+| GetBytes_DollarStringToAscii     | InProcess  | .NET 9.0 | 156.26 ns | 2.201 ns | 2.058 ns |  1.07 |    0.01 |
+|                                  |            |          |           |          |          |       |         |
+| GetSpan_CopyToTryFormat          | Job-ZUTAWM | .NET 8.0 |  80.76 ns | 0.422 ns | 0.352 ns |  1.00 |    0.01 |
+| GetSpan_CopyToTryFormat          | Job-XLZJOB | .NET 9.0 |  84.16 ns | 0.556 ns | 0.493 ns |  1.04 |    0.01 |
+| GetSpan_CopyToTryFormat          | InProcess  | .NET 9.0 |  92.64 ns | 0.779 ns | 0.728 ns |  1.15 |    0.01 |
+|                                  |            |          |           |          |          |       |         |
+| GetSpan_Utf8TryWriteDollarString | Job-ZUTAWM | .NET 8.0 |  87.52 ns | 0.433 ns | 0.338 ns |  1.00 |    0.01 |
+| GetSpan_Utf8TryWriteDollarString | Job-XLZJOB | .NET 9.0 |  88.03 ns | 0.659 ns | 0.515 ns |  1.01 |    0.01 |
+| GetSpan_Utf8TryWriteDollarString | InProcess  | .NET 9.0 | 102.79 ns | 1.327 ns | 1.241 ns |  1.17 |    0.01 |
+|                                  |            |          |           |          |          |       |         |
+| GetSpan_Utf8TryWriteDollarUtf8   | Job-ZUTAWM | .NET 8.0 |  84.79 ns | 0.741 ns | 0.693 ns |  1.00 |    0.01 |
+| GetSpan_Utf8TryWriteDollarUtf8   | Job-XLZJOB | .NET 9.0 |  84.45 ns | 1.146 ns | 0.957 ns |  1.00 |    0.01 |
+| GetSpan_Utf8TryWriteDollarUtf8   | InProcess  | .NET 9.0 |  96.31 ns | 1.387 ns | 1.297 ns |  1.14 |    0.02 |
+
+
+・[VariousBench](https://gitan.dev/?p=109)
 
 　C#のいろいろな、遅くなる要素のベンチマーク
 
