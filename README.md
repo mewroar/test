@@ -1,7 +1,7 @@
 
 ■Benchmarkとは
 
-Benchmarkは、いろんな方法のパフォーマンスを比較するためのベンチマークです。
+Benchmarkは、さまざまな方法のパフォーマンスを比較するためのベンチマークです。
 ベンチマーク用のライブラリ「BenchmarkDotNet」を使用して実装されています。
 
 プロジェクトURL : [https://github.com/gitan-dev/Benchmark](https://github.com/gitan-dev/Benchmark)
@@ -15,24 +15,38 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 
 ■使用方法
 
+プロジェクトのプロパティグループに計測したい.netバージョンをTargetFrameworksに設定する
+
+ <PropertyGroup>
+  <OutputType>Exe</OutputType>
+  <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
+  <LangVersion>latest</LangVersion>
+  <ImplicitUsings>enable</ImplicitUsings>
+  <Nullable>enable</Nullable>
+  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  <ServerGarbageCollection>true</ServerGarbageCollection>
+ </PropertyGroup>
+
+
+
 コマンドプロンプトでBenchmark.csprojがあるプロジェクトのルートディレクトリまで移動して下記を実行
 
 ・全てのベンチマークを実行するコマンド
 
-　dotnet run -c Release -f net9.0 --filter "*" --runtimes net8.0 net9.0
+　dotnet run -c Release -f net9.0 --filter "*"
 
 ・特定のベンチマークを実行するコマンド
 
-　dotnet run -c Release -f net9.0 --filter *ByteArrayBench.* --runtimes net8.0 net9.0
+　dotnet run -c Release -f net9.0 --filter *CommandStringUtf8Benchmark.*　※コマンドプロンプト
+
+  dotnet run -c Release -f net9.0 --filter "*CommandStringUtf8Benchmark*"  ※Linux
 
 
 ■ベンチマーク
 
-・[ByteArrayBench](https://gitan.dev/?p=213)
-
-　Utf8のbyte[]のコマンドを、どのコマンドか調べるために比較コード
-　switch/if、SequenceEquaを使って
-　書きやすさ、読みやすさ、パフォーマンスを見たベンチマーク
+・[CommandStringUtf8Benchmark](https://gitan.dev/?p=213)
+　
+　文字列とUtf8のbyte[]のコマンド比較ベンチマーク
 
     [Benchmark]
     public int StringSwitchBench()
@@ -62,7 +76,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | U8BytesBench                  | Job-WLOQWX | .NET 9.0 |   7.160 ns | 0.1011 ns | 0.1038 ns |   7.118 ns |  0.76 |    0.04 |
 
 
-・ByteArrayROSSplitBench
+・ByteArrayROSSplitBenchmark
 
  byte[]をReadOnlySpan<byte>で分けた時と比較したベンチマーク
 
@@ -89,7 +103,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | ReadOnlySpanSplitBench | Job-WLOQWX | .NET 9.0 |   439.8 ns |  3.71 ns |  2.90 ns |  0.97 |    0.02 |
 
 
-・[DivBench](https://gitan.dev/?p=275)
+・[DivShiftBenchmark](https://gitan.dev/?p=275)
 
 　Int、UInt、Long、ULongの整数の割り算を比較したベンチマーク
 
@@ -156,7 +170,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | PowShift1000ULongBench | Job-WLOQWX | .NET 9.0 | 2.267 us | 0.0127 us | 0.0119 us |  0.99 |    0.01 |
 
 
-・[ForForeachBench](https://gitan.dev/?p=180)
+・[ForForeachBenchmark](https://gitan.dev/?p=180)
 
 　配列かListをfor、foreachで要素を足していくベンチマーク
 
@@ -186,7 +200,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | QueueForEachBench       | Job-WLOQWX | .NET 9.0 | 218.69 ns | 4.135 ns |  3.868 ns |  0.98 |    0.03 |
 
 
-・[HighPerformanceStringBench](https://gitan.dev/?p=336)
+・[HighPerformanceStringBenchmark](https://gitan.dev/?p=336)
 
 　stringの作成を比較したベンチマーク
 
@@ -222,7 +236,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | ToHexString_CreateUnsafeBench | Job-PUSYPP | .NET 8.0 |  32.07 ns |  0.220 ns |  0.205 ns |  32.06 ns |  1.00 |    0.01 |
 | ToHexString_CreateUnsafeBench | Job-FMYSKB | .NET 9.0 |  34.86 ns |  1.678 ns |  4.869 ns |  33.40 ns |  1.09 |    0.15 |
 
-・IntLongWriteUtf8
+・IntLongUtf8FormatBenchmark
 
 | Method        | Job        | Runtime  | Mean     | Error     | StdDev    | Median   | Ratio | RatioSD |
 |-------------- |----------- |--------- |---------:|----------:|----------:|---------:|------:|--------:|
@@ -236,7 +250,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | LongUtf8Write | Job-WLOQWX | .NET 9.0 | 7.825 ns | 0.1017 ns | 0.0951 ns | 7.819 ns |  1.01 |    0.03 |
 
 
-・[ListSortBench](https://gitan.dev/?p=124)
+・[ListSortBenchmark](https://gitan.dev/?p=124)
 
 　Listの並び替えの速度を比較したベンチマーク
 
@@ -260,7 +274,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | ListSortReverseComparer | Job-WLOQWX | .NET 9.0 | 4.613 ms | 0.0212 ms | 0.0198 ms |  0.87 |    0.01 |
 
 
-・[ReferenceUpdateBench](https://gitan.dev/?p=171)
+・[ReferenceUpdateBenchmark](https://gitan.dev/?p=171)
 
 | Method    | Job        | Runtime  | Mean       | Error    | StdDev   | Ratio | RatioSD |
 |---------- |----------- |--------- |-----------:|---------:|---------:|------:|--------:|
@@ -270,7 +284,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | Update    | Job-WLOQWX | .NET 9.0 |   887.3 ns | 17.51 ns | 16.38 ns |  1.07 |    0.02 |
 
 　
-・[SpanBench](https://gitan.dev/?p=55)
+・[CopyPerformanceBenchmark](https://gitan.dev/?p=55)
 
 　byte[]のCopyでSpanを使った速度比較
 
@@ -282,7 +296,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | CopySpan  | Job-WLOQWX | .NET 9.0 | 29.47 ns | 0.399 ns | 0.373 ns |  0.99 |    0.02 |
 
 
-・SpanToArrayDirectArrayBench
+・SpanToArrayDirectArrayBenchmark
 
  longをSpan<byte>とbyte[]に変換した場合の比較ベンチマーク
  
@@ -456,7 +470,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | DirectArray | Job-WLOQWX | .NET 9.0 | 12.59 ns | 0.271 ns | 0.333 ns |  1.06 |    0.03 |
 
 
-・[StreamCopyBench](https://gitan.dev/?p=180)
+・[StreamCopyBenchmark](https://gitan.dev/?p=180)
 
 　Streamのデータを読み込む方法を比較したベンチマーク
 
@@ -474,7 +488,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | StringStreamCopy          | Job-WLOQWX | .NET 9.0 | 548.01 ns | 10.706 ns | 10.514 ns | 544.07 ns |  0.90 |    0.04 |
 
 
-・[StringDollerBench](https://gitan.dev/?p=148)
+・[StringDollerBenchmark](https://gitan.dev/?p=148)
 
 　文字列結合のパフォーマンス
 
@@ -490,7 +504,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | DollarFormat5 | Job-WLOQWX | .NET 9.0 | 27.381 ms | 0.2700 ms | 0.2526 ms |  0.60 |    0.01 |
 
 
-・[TenToTheNConversionBench](https://gitan.dev/?p=230)　
+・[TenToTheNConversionBenchmark](https://gitan.dev/?p=230)　
 
 　longで10のn乗するベンチマーク
 
@@ -514,7 +528,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | RosBench                | Job-WLOQWX | .NET 9.0 |  0.2546 ns | 0.0277 ns | 0.0447 ns |  0.2346 ns |  1.09 |    0.27 |
 
 
-・ToStringToArrayBench
+・ToStringToArrayBenchmark
 
 | Method                 | Job        | Runtime  | Mean       | Error     | StdDev    | Ratio | RatioSD |
 |----------------------- |----------- |--------- |-----------:|----------:|----------:|------:|--------:|
@@ -528,7 +542,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | FixedPointReturnBuffer | Job-WLOQWX | .NET 9.0 |   8.733 ns | 0.1392 ns | 0.1162 ns |  1.02 |    0.03 |
 
 
-・[UnixTimeBench](https://gitan.dev/?p=358)
+・[UnixTimeBenchmark](https://gitan.dev/?p=358)
 
 　UnixTimeを作る方法のベンチマーク
 
@@ -558,7 +572,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | D_DateTime_UtcNow_SelfCalc                     | InProcess  | .NET 9.0 | 29.63 ns | 0.101 ns | 0.094 ns |  1.06 |
 
 
-・[Utf8Bench](https://gitan.dev/?p=320)
+・[Utf8JsonBenchmark](https://gitan.dev/?p=320)
 
 　Utf8文字列の作り方とパフォーマンス
 
@@ -597,7 +611,7 @@ Benchmarkは、いろんな方法のパフォーマンスを比較するため�
 | GetSpan_Utf8TryWriteDollarUtf8   | InProcess  | .NET 9.0 |  96.31 ns | 1.387 ns | 1.297 ns |  1.14 |    0.02 |
 
 
-・[VariousBench](https://gitan.dev/?p=109)
+・[VariousBenchmark](https://gitan.dev/?p=109)
 
 　C#のいろいろな、遅くなる要素のベンチマーク
 
