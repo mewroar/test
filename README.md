@@ -37,10 +37,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 ・特定のベンチマークを実行するコマンド
 
-　dotnet run -c Release -f net9.0 --filter *CommandStringUtf8Benchmark.*　※コマンドプロンプト
-
-  dotnet run -c Release -f net9.0 --filter "*CommandStringUtf8Benchmark*"  ※Linux
-
+  dotnet run -c Release -f net9.0 --filter "*CommandStringUtf8Benchmark*"
 
 ■ベンチマーク
 
@@ -490,7 +487,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 ・[StringDollerBenchmark](https://gitan.dev/?p=148)
 
-　文字列結合のパフォーマンス
+　文字列結合のパフォーマンスベンチマーク
 
 | Method        | Job        | Runtime  | Mean      | Error     | StdDev    | Ratio | RatioSD |
 |-------------- |----------- |--------- |----------:|----------:|----------:|------:|--------:|
