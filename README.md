@@ -96,7 +96,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | ReadOnlySpanSplitBench | Job-WLOQWX | .NET 9.0 |   439.8 ns |  3.71 ns |  2.90 ns |  0.97 |    0.02 |
 
 
-・[DivShiftBenchmark](https://gitan.dev/?p=275)　　Int、UInt、Long、ULongの整数の割り算を比較したベンチマーク
+・[**DivShiftBenchmark**](https://gitan.dev/?p=275)　　Int、UInt、Long、ULongの整数の割り算を比較したベンチマーク
 
     [Benchmark]
     public int Div10IntBench()
@@ -161,7 +161,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | PowShift1000ULongBench | Job-WLOQWX | .NET 9.0 | 2.267 us | 0.0127 us | 0.0119 us |  0.99 |    0.01 |
 
 
-・[ForForeachBenchmark](https://gitan.dev/?p=180)　　配列かListをfor、foreachで要素を足していくベンチマーク
+・[**ForForeachBenchmark**](https://gitan.dev/?p=180)　　配列かListをfor、foreachで要素を足していくベンチマーク
 
 | Method                  | Job        | Runtime  | Mean      | Error    | StdDev    | Ratio | RatioSD |
 |------------------------ |----------- |--------- |----------:|---------:|----------:|------:|--------:|
@@ -189,7 +189,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | QueueForEachBench       | Job-WLOQWX | .NET 9.0 | 218.69 ns | 4.135 ns |  3.868 ns |  0.98 |    0.03 |
 
 
-・[HighPerformanceStringBenchmark](https://gitan.dev/?p=336)　　stringの作成を比較したベンチマーク
+・[**HighPerformanceStringBenchmark**](https://gitan.dev/?p=336)　　stringの作成を比較したベンチマーク
 
     [Benchmark]
     public string ToHexString_SpanBench() => ToHexString_Span(_hash);
@@ -223,7 +223,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | ToHexString_CreateUnsafeBench | Job-PUSYPP | .NET 8.0 |  32.07 ns |  0.220 ns |  0.205 ns |  32.06 ns |  1.00 |    0.01 |
 | ToHexString_CreateUnsafeBench | Job-FMYSKB | .NET 9.0 |  34.86 ns |  1.678 ns |  4.869 ns |  33.40 ns |  1.09 |    0.15 |
 
-・IntLongUtf8FormatBenchmark
+・**IntLongUtf8FormatBenchmark**
 
 | Method        | Job        | Runtime  | Mean     | Error     | StdDev    | Median   | Ratio | RatioSD |
 |-------------- |----------- |--------- |---------:|----------:|----------:|---------:|------:|--------:|
@@ -237,7 +237,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | LongUtf8Write | Job-WLOQWX | .NET 9.0 | 7.825 ns | 0.1017 ns | 0.0951 ns | 7.819 ns |  1.01 |    0.03 |
 
 
-・[ListSortBenchmark](https://gitan.dev/?p=124)　　Listの並び替えの速度を比較したベンチマーク
+・[**ListSortBenchmark**](https://gitan.dev/?p=124)　　Listの並び替えの速度を比較したベンチマーク
 
     [Benchmark]
     public List<int> ListSort()
@@ -259,7 +259,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | ListSortReverseComparer | Job-WLOQWX | .NET 9.0 | 4.613 ms | 0.0212 ms | 0.0198 ms |  0.87 |    0.01 |
 
 
-・[ReferenceUpdateBenchmark](https://gitan.dev/?p=171)　　APIリクエストの署名生成とリクエスト送信のパフォーマンスベンチマーク
+・[**ReferenceUpdateBenchmark**](https://gitan.dev/?p=171)　　APIリクエストの署名生成とリクエスト送信のパフォーマンスベンチマーク
 
 | Method    | Job        | Runtime  | Mean       | Error    | StdDev   | Ratio | RatioSD |
 |---------- |----------- |--------- |-----------:|---------:|---------:|------:|--------:|
@@ -269,7 +269,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | Update    | Job-WLOQWX | .NET 9.0 |   887.3 ns | 17.51 ns | 16.38 ns |  1.07 |    0.02 |
 
 　
-・[CopyPerformanceBenchmark](https://gitan.dev/?p=55)　　byte[]のCopyでSpanを使った速度比較
+・[**CopyPerformanceBenchmark**](https://gitan.dev/?p=55)　　byte[]のCopyでSpanを使った速度比較
 
 | Method    | Job        | Runtime  | Mean     | Error    | StdDev   | Ratio | RatioSD |
 |---------- |----------- |--------- |---------:|---------:|---------:|------:|--------:|
@@ -279,7 +279,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | CopySpan  | Job-WLOQWX | .NET 9.0 | 29.47 ns | 0.399 ns | 0.373 ns |  0.99 |    0.02 |
 
 
-・SpanToArrayDirectArrayBenchmark　　longをSpan<byte>とbyte[]に変換した場合の比較ベンチマーク
+・**SpanToArrayDirectArrayBenchmark**　　longをSpan<byte>とbyte[]に変換した場合の比較ベンチマーク
  
     [Benchmark]
     public void SpanToArray()
@@ -451,7 +451,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | DirectArray | Job-WLOQWX | .NET 9.0 | 12.59 ns | 0.271 ns | 0.333 ns |  1.06 |    0.03 |
 
 
-・[StreamCopyBenchmark](https://gitan.dev/?p=180)　　Streamのデータを読み込む方法を比較したベンチマーク
+・[**StreamCopyBenchmark**](https://gitan.dev/?p=180)　　Streamのデータを読み込む方法を比較したベンチマーク
 
 | Method                    | Job        | Runtime  | Mean      | Error     | StdDev    | Median    | Ratio | RatioSD |
 |-------------------------- |----------- |--------- |----------:|----------:|----------:|----------:|------:|--------:|
@@ -467,7 +467,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | StringStreamCopy          | Job-WLOQWX | .NET 9.0 | 548.01 ns | 10.706 ns | 10.514 ns | 544.07 ns |  0.90 |    0.04 |
 
 
-・[StringDollerBenchmark](https://gitan.dev/?p=148)　　文字列結合のパフォーマンスベンチマーク
+・[**StringDollerBenchmark**](https://gitan.dev/?p=148)　　文字列結合のパフォーマンスベンチマーク
 
 | Method        | Job        | Runtime  | Mean      | Error     | StdDev    | Ratio | RatioSD |
 |-------------- |----------- |--------- |----------:|----------:|----------:|------:|--------:|
@@ -481,7 +481,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | DollarFormat5 | Job-WLOQWX | .NET 9.0 | 27.381 ms | 0.2700 ms | 0.2526 ms |  0.60 |    0.01 |
 
 
-・[TenToTheNConversionBenchmark](https://gitan.dev/?p=230)　　longで10のn乗するベンチマーク
+・[**TenToTheNConversionBenchmark**](https://gitan.dev/?p=230)　　longで10のn乗するベンチマーク
 
 | Method                  | Job        | Runtime  | Mean       | Error     | StdDev    | Median     | Ratio | RatioSD |
 |------------------------ |----------- |--------- |-----------:|----------:|----------:|-----------:|------:|--------:|
@@ -503,7 +503,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | RosBench                | Job-WLOQWX | .NET 9.0 |  0.2546 ns | 0.0277 ns | 0.0447 ns |  0.2346 ns |  1.09 |    0.27 |
 
 
-・ToStringToArrayBenchmark　　数値を文字列やバイト配列に変換する際のパフォーマンスベンチマーク
+・**ToStringToArrayBenchmark**　　数値を文字列やバイト配列に変換する際のパフォーマンスベンチマーク
 
 | Method                 | Job        | Runtime  | Mean       | Error     | StdDev    | Ratio | RatioSD |
 |----------------------- |----------- |--------- |-----------:|----------:|----------:|------:|--------:|
@@ -517,7 +517,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | FixedPointReturnBuffer | Job-WLOQWX | .NET 9.0 |   8.733 ns | 0.1392 ns | 0.1162 ns |  1.02 |    0.03 |
 
 
-・[UnixTimeBenchmark](https://gitan.dev/?p=358)　　UnixTimeを作る方法のベンチマーク
+・[**UnixTimeBenchmark**](https://gitan.dev/?p=358)　　UnixTimeを作る方法のベンチマーク
 
     private static DateTime _unixTime_BaseTime = new DateTime(1970, 1, 1);
 
@@ -545,7 +545,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | D_DateTime_UtcNow_SelfCalc                     | InProcess  | .NET 9.0 | 29.63 ns | 0.101 ns | 0.094 ns |  1.06 |
 
 
-・[Utf8JsonBenchmark](https://gitan.dev/?p=320)　　Utf8文字列の作り方とパフォーマンス
+・[**Utf8JsonBenchmark**](https://gitan.dev/?p=320)　　Utf8文字列の作り方とパフォーマンス
 
 | Method                           | Job        | Runtime  | Mean      | Error    | StdDev   | Ratio | RatioSD |
 |--------------------------------- |----------- |--------- |----------:|---------:|---------:|------:|--------:|
@@ -582,7 +582,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | GetSpan_Utf8TryWriteDollarUtf8   | InProcess  | .NET 9.0 |  96.31 ns | 1.387 ns | 1.297 ns |  1.14 |    0.02 |
 
 
-・[VariousBenchmark](https://gitan.dev/?p=109)　　C#のいろいろな、遅くなる要素のベンチマーク
+・[**VariousBenchmark**](https://gitan.dev/?p=109)　　C#のいろいろな、遅くなる要素のベンチマーク
 
 | Method                                 | Job        | Runtime  | Mean       | Error     | StdDev    | Median     | Ratio | RatioSD |
 |--------------------------------------- |----------- |--------- |-----------:|----------:|----------:|-----------:|------:|--------:|
