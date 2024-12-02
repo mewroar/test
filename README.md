@@ -17,23 +17,15 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 プロジェクトのプロパティグループに計測したい.netバージョンをTargetFrameworksに設定する
 
- <p><nobr>&lt;PropertyGroup&gt;
-
-  &lt;OutputType&gt;Exe&lt;/OutputType&gt;
-	
-  &lt;TargetFrameworks&gt;net9.0;net8.0&lt;/TargetFrameworks&gt;
-	
-  &lt;LangVersion&gt;latest&lt;/LangVersion&gt;
-	
-  &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
-	
-  &lt;Nullable&gt;enable&lt;/Nullable&gt;
-	
-  &lt;AllowUnsafeBlocks&gt;true&lt;/AllowUnsafeBlocks&gt;
-	
-  &lt;ServerGarbageCollection&gt;true&lt;/ServerGarbageCollection&gt;
-	
- &lt;/PropertyGroup&gt;</nobr></p>
+ &lt;PropertyGroup&gt;<br>
+　&lt;OutputType&gt;Exe&lt;/OutputType&gt;<br>
+　&lt;TargetFrameworks&gt;net9.0;net8.0&lt;/TargetFrameworks&gt;<br>
+　&lt;LangVersion&gt;latest&lt;/LangVersion&gt;<br>
+　&lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;<br>
+　&lt;Nullable&gt;enable&lt;/Nullable&gt;<br>
+　&lt;AllowUnsafeBlocks&gt;true&lt;/AllowUnsafeBlocks&gt;<br>
+　&lt;ServerGarbageCollection&gt;true&lt;/ServerGarbageCollection&gt;<br>
+ &lt;/PropertyGroup&gt;<br>
 
 
 コマンドプロンプトでBenchmark.csprojがあるプロジェクトのルートディレクトリまで移動して下記を実行
