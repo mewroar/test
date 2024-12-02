@@ -17,7 +17,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 プロジェクトのプロパティグループに計測したい.netバージョンをTargetFrameworksに設定する
 
- &lt;PropertyGroup&gt;
+ <p><nobr>&lt;PropertyGroup&gt;
 
   &lt;OutputType&gt;Exe&lt;/OutputType&gt;
 	
@@ -33,8 +33,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 	
   &lt;ServerGarbageCollection&gt;true&lt;/ServerGarbageCollection&gt;
 	
- &lt;/PropertyGroup&gt;
-
+ &lt;/PropertyGroup&gt;</nobr></p>
 
 
 コマンドプロンプトでBenchmark.csprojがあるプロジェクトのルートディレクトリまで移動して下記を実行
