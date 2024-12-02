@@ -17,15 +17,15 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 プロジェクトのプロパティグループに計測したい.netバージョンをTargetFrameworksに設定する
 
- <PropertyGroup>
-  <OutputType>Exe</OutputType>
-  <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
-  <LangVersion>latest</LangVersion>
-  <ImplicitUsings>enable</ImplicitUsings>
-  <Nullable>enable</Nullable>
-  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  <ServerGarbageCollection>true</ServerGarbageCollection>
- </PropertyGroup>
+ &lt;PropertyGroup&gt;
+  &lt;OutputType&gt;Exe&lt;/OutputType&gt;	
+  &lt;TargetFrameworks&gt;net9.0;net8.0&lt;/TargetFrameworks&gt;	
+  &lt;LangVersion&gt;latest&lt;/LangVersion&gt;	
+  &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;	
+  &lt;Nullable&gt;enable&lt;/Nullable&gt;	
+  &lt;AllowUnsafeBlocks&gt;true&lt;/AllowUnsafeBlocks&gt;	
+  &lt;ServerGarbageCollection&gt;true&lt;/ServerGarbageCollection&gt;	
+ &lt;/PropertyGroup&gt;
 
 
 
