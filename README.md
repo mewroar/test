@@ -225,6 +225,129 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 ・**IntLongUtf8FormatBenchmark**　　int、longをUTF-8バイト配列に変換する方法のベンチマーク
 
+    static uint Div1000(uint value) => value * 8389 >> 23;
+    static uint Div100(uint value) => value * 5243 >> 19;
+    static uint Div10(uint value) => value * 6554 >> 16;
+
+    public static int IntWriteUtf8(int value, Span<byte> destination)
+    {
+
+        int offset = 0;
+        int charsWritten;
+
+        uint num1, num2, num3, div;
+        int valueB;
+
+        if (value < 0)
+        {
+            if (value == int.MinValue)
+            {
+                ReadOnlySpan<byte> minValue = "-2147483648"u8;
+
+                charsWritten = minValue.Length;
+                minValue.CopyTo(destination);
+                return charsWritten;
+            }
+
+            destination[offset++] = (byte)'-';
+            valueB = unchecked(-value);
+        }
+        //else
+        //{
+        //    valueB = value;
+        //}
+
+        if (value < 10000)
+        {
+            num1 = (uint)value;
+            if (num1 < 10) { goto L1; }
+            if (num1 < 100) { goto L2; }
+            if (num1 < 1000) { goto L3; }
+            goto L4;
+        }
+        else
+        {
+            valueB = value / 10000;
+            num1 = (uint)(value - valueB * 10000);
+            if (valueB < 10000)
+            {
+                num2 = (uint)valueB;
+                if (num2 < 100)
+                {
+                    if (num2 < 10) { goto L5; }
+                    goto L6;
+                }
+                if (num2 < 1000) { goto L7; }
+                goto L8;
+            }
+            else
+            {
+                value = valueB / 10000;
+                num2 = (uint)(valueB - value * 10000);
+
+                num3 = (uint)value;
+                if (num3 < 100)
+                {
+                    if (num3 < 10) { goto L9; }
+                    goto L10;
+                }
+                if (num3 < 1000) { goto L11; }
+                goto L12;
+
+            L12:
+                destination[offset++] = (byte)('0' + (div = Div1000(num3)));
+                num3 -= div * 1000;
+            L11:
+                destination[offset++] = (byte)('0' + (div = Div100(num3)));
+                num3 -= div * 100;
+            L10:
+                destination[offset++] = (byte)('0' + (div = Div10(num3)));
+                num3 -= div * 10;
+            L9:
+                destination[offset++] = (byte)('0' + num3);
+
+            }
+        L8:
+            destination[offset++] = (byte)('0' + (div = Div1000(num2)));
+            num2 -= div * 1000;
+        L7:
+            destination[offset++] = (byte)('0' + (div = Div100(num2)));
+            num2 -= div * 100;
+        L6:
+            destination[offset++] = (byte)('0' + (div = Div10(num2)));
+            num2 -= div * 10;
+        L5:
+            destination[offset++] = (byte)('0' + num2);
+
+        }
+
+    L4:
+        destination[offset++] = (byte)('0' + (div = Div1000(num1)));
+        num1 -= div * 1000;
+    L3:
+        destination[offset++] = (byte)('0' + (div = Div100(num1)));
+        num1 -= div * 100;
+    L2:
+        destination[offset++] = (byte)('0' + (div = Div10(num1)));
+        num1 -= div * 10;
+    L1:
+        destination[offset++] = (byte)('0' + num1);
+
+        charsWritten = offset;
+        return charsWritten;
+    }
+
+    [Benchmark]
+    public int IntUtf8Write()
+    {
+        Span<byte> buffer = stackalloc byte[20];
+
+        var result = IntWriteUtf8(i, buffer);
+
+        return result;
+    }  
+
+
 | Method        | Job        | Runtime  | Mean     | Error     | StdDev    | Median   | Ratio | RatioSD |
 |-------------- |----------- |--------- |---------:|----------:|----------:|---------:|------:|--------:|
 | IntTryFormat  | Job-DDXAAB | .NET 8.0 | 5.403 ns | 0.1318 ns | 0.1667 ns | 5.392 ns |  1.00 |    0.04 |
