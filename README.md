@@ -223,7 +223,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | ToHexString_CreateUnsafeBench | Job-PUSYPP | .NET 8.0 |  32.07 ns |  0.220 ns |  0.205 ns |  32.06 ns |  1.00 |    0.01 |
 | ToHexString_CreateUnsafeBench | Job-FMYSKB | .NET 9.0 |  34.86 ns |  1.678 ns |  4.869 ns |  33.40 ns |  1.09 |    0.15 |
 
-・**IntLongUtf8FormatBenchmark**
+・**IntLongUtf8FormatBenchmark**　　int、longをUTF-8バイト配列に変換する方法のベンチマーク
 
 | Method        | Job        | Runtime  | Mean     | Error     | StdDev    | Median   | Ratio | RatioSD |
 |-------------- |----------- |--------- |---------:|----------:|----------:|---------:|------:|--------:|
