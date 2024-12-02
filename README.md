@@ -384,6 +384,57 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 ・[**ReferenceUpdateBenchmark**](https://gitan.dev/?p=171)　　APIリクエストの署名生成とリクエスト送信のパフォーマンスベンチマーク
 
+    [Benchmark]
+    public async Task<(HttpClient, HttpRequestMessage)> Reference()
+    {
+        var method = "POST";
+        var path = "/v1/me/sendchildorder";
+        var query = "";
+        var body = @"";
+
+        //using (var client = new HttpClient())
+        //using (var request = new HttpRequestMessage(new HttpMethod(method), path + query))
+        //using (var content = new StringContent(body))
+        var client = new HttpClient();
+        var request = new HttpRequestMessage(new HttpMethod(method), path + query);
+        var content = new StringContent(body);
+        {
+            client.BaseAddress = endpointUri;
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            request.Content = content;
+
+            var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
+            var data = timestamp + method + path + query + body;
+            var hash = SignWithHMACSHA256(data, apiSecret);
+            request.Headers.Add("ACCESS-KEY", apiKey);
+            request.Headers.Add("ACCESS-TIMESTAMP", timestamp);
+            request.Headers.Add("ACCESS-SIGN", hash);
+
+            return (client, request);
+            //var message = await client.SendAsync(request);
+            //var response = await message.Content.ReadAsStringAsync();
+
+            //Console.WriteLine(response);
+        }
+    }
+
+    static string SignWithHMACSHA256(string data, string secret)
+    {
+        using var encoder = new HMACSHA256(Encoding.UTF8.GetBytes(secret));
+        var hash = encoder.ComputeHash(Encoding.UTF8.GetBytes(data));
+        return ToHexString(hash);
+    }
+
+    static string ToHexString(byte[] bytes)
+    {
+        var sb = new StringBuilder(bytes.Length * 2);
+        foreach (var b in bytes)
+        {
+            sb.Append(b.ToString("x2"));
+        }
+        return sb.ToString();
+    }
+
 | Method    | Job        | Runtime  | Mean       | Error    | StdDev   | Ratio | RatioSD |
 |---------- |----------- |--------- |-----------:|---------:|---------:|------:|--------:|
 | Reference | Job-DDXAAB | .NET 8.0 | 1,915.3 ns | 23.15 ns | 19.33 ns |  1.00 |    0.01 |
@@ -393,6 +444,17 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 　
 ・[**CopyPerformanceBenchmark**](https://gitan.dev/?p=55)　　byte[]のCopyでSpanを使った速度比較
+
+    [Benchmark]
+    public byte[] CopyArray()
+    {
+        var result = new byte[50];
+        for (int i = 0; i < 10; i++)
+        {
+            data.CopyTo(result, i * 5);
+        }
+        return result;
+    }
 
 | Method    | Job        | Runtime  | Mean     | Error    | StdDev   | Ratio | RatioSD |
 |---------- |----------- |--------- |---------:|---------:|---------:|------:|--------:|
@@ -576,6 +638,17 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 ・[**StreamCopyBenchmark**](https://gitan.dev/?p=180)　　Streamのデータを読み込む方法を比較したベンチマーク
 
+    public static byte[] Source { get; set; } = Enumerable.Range(32, 80).Select(x => (byte)x).ToArray();
+    public static byte[] Buffer { get; set; } = new byte[8192];
+
+    public static MemoryStream ShareMemoryStream { get; set; } = new MemoryStream(Buffer);
+
+    [Benchmark]
+    public byte[] ToArray()
+    {
+        return Source.ToArray();
+    }
+
 | Method                    | Job        | Runtime  | Mean      | Error     | StdDev    | Median    | Ratio | RatioSD |
 |-------------------------- |----------- |--------- |----------:|----------:|----------:|----------:|------:|--------:|
 | ToArray                   | Job-DDXAAB | .NET 8.0 |  26.73 ns |  0.557 ns |  0.572 ns |  26.63 ns |  1.00 |    0.03 |
@@ -592,6 +665,24 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 ・[**StringDollerBenchmark**](https://gitan.dev/?p=148)　　文字列結合のパフォーマンスベンチマーク
 
+    const int _loopCount = 1_000_000;
+
+    [Benchmark]
+    public int StringPlus4()
+    {
+        int length = 0;
+        string a = "yamada";
+        string b = "taro";
+
+        for (int i = 0; i < _loopCount; i++)
+        {
+            string value = a + "." + b + ".";
+            length += value.Length;
+        }
+
+        return length;
+    }
+
 | Method        | Job        | Runtime  | Mean      | Error     | StdDev    | Ratio | RatioSD |
 |-------------- |----------- |--------- |----------:|----------:|----------:|------:|--------:|
 | StringPlus4   | Job-DDXAAB | .NET 8.0 |  9.000 ms | 0.1336 ms | 0.1591 ms |  1.00 |    0.02 |
@@ -605,6 +696,44 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 
 ・[**TenToTheNConversionBenchmark**](https://gitan.dev/?p=230)　　longで10のn乗するベンチマーク
+
+    static long sourceValue = 123;
+    static int powerValue = 11;
+
+     [Benchmark]
+    public long RosBench()
+    {
+        return Power7(sourceValue, powerValue);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public long Power7(long baseNumber, int power)
+    {
+        ReadOnlySpan<long> powerSpan = new long[] {
+    0,
+    10,
+    100,
+    1_000,
+    10_000,
+    100_000,
+    1_000_000,
+    10_000_000,
+    100_000_000,
+    1_000_000_000,
+    10_000_000_000,
+    100_000_000_000,
+    1_000_000_000_000,
+    10_000_000_000_000,
+    100_000_000_000_000,
+    1_000_000_000_000_000,
+    10_000_000_000_000_000,
+    100_000_000_000_000_0000,
+    1_000_000_000_000_000_000
+　　};
+
+        return baseNumber * powerSpan[power];
+    }
+
 
 | Method                  | Job        | Runtime  | Mean       | Error     | StdDev    | Median     | Ratio | RatioSD |
 |------------------------ |----------- |--------- |-----------:|----------:|----------:|-----------:|------:|--------:|
@@ -627,6 +756,278 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 
 ・**ToStringToArrayBenchmark**　　数値を文字列やバイト配列に変換する際のパフォーマンスベンチマーク
+
+    static uint Div1000(uint value) => value * 8389 >> 23;
+    static uint Div100(uint value) => value * 5243 >> 19;
+    static uint Div10(uint value) => value * 6554 >> 16;
+
+    public static bool TryWriteUtf8(long value, Span<byte> destination, out int writtenLength)
+    {
+
+        writtenLength = 0;
+
+        int offset = 0;
+        int offset2;
+        uint num1, num2, num3, num4, num5, num6, num7, num8, div;
+        ulong valueA, valueB;
+
+        if (value < 0)
+        {
+            if (value == long.MinValue)
+            {
+                ReadOnlySpan<byte> minValue = "-92233720368.54775808"u8;
+
+                writtenLength = minValue.Length;
+                return minValue.TryCopyTo(destination);
+            }
+
+            if (destination.Length == 0) { return false; }
+            destination[offset++] = (byte)'-';
+            valueB = (ulong)(unchecked(-value));
+        }
+        else
+        {
+            valueB = (ulong)value;
+        }
+
+        valueA = valueB / 1__0000_0000;
+
+        uint underPoint = (uint)(valueB - (valueA * 1__0000_0000));
+
+        if (valueA < 10000)
+        {
+            num1 = (uint)valueA;
+            if (num1 < 10)
+            {
+                if (destination.Length < offset + 1) { return false; }
+                goto L1;
+            }
+            if (num1 < 100)
+            {
+                if (destination.Length < offset + 2) { return false; }
+                goto L2;
+            }
+            if (num1 < 1000)
+            {
+                if (destination.Length < offset + 3) { return false; }
+                goto L3;
+            }
+            if (destination.Length < offset + 4) { return false; }
+            goto L4;
+        }
+        else
+        {
+            valueB = valueA / 10000;
+            num1 = (uint)(valueA - valueB * 10000);
+            if (valueB < 10000)
+            {
+                num2 = (uint)valueB;
+                if (num2 < 100)
+                {
+                    if (num2 < 10)
+                    {
+                        if (destination.Length < offset + 5) { return false; }
+                        goto L5;
+                    }
+                    if (destination.Length < offset + 6) { return false; }
+                    goto L6;
+                }
+                if (num2 < 1000)
+                {
+                    if (destination.Length < offset + 7) { return false; }
+                    goto L7;
+                }
+                if (destination.Length < offset + 8) { return false; }
+                goto L8;
+            }
+            else
+            {
+                valueA = valueB / 10000;
+                num2 = (uint)(valueB - valueA * 10000);
+                num3 = (uint)valueA;
+                if (num3 < 100)
+                {
+                    if (num3 < 10)
+                    {
+                        if (destination.Length < offset + 9) { return false; }
+                        goto L9;
+                    }
+                    if (destination.Length < offset + 10) { return false; }
+                    goto L10;
+                }
+                if (num3 < 1000)
+                {
+                    if (destination.Length < offset + 11) { return false; }
+                    goto L11;
+                }
+                if (destination.Length < offset + 12) { return false; }
+                goto L12;
+
+            L12:
+                destination[offset++] = (byte)('0' + (div = Div1000(num3)));
+                num3 -= div * 1000;
+            L11:
+                destination[offset++] = (byte)('0' + (div = Div100(num3)));
+                num3 -= div * 100;
+            L10:
+                destination[offset++] = (byte)('0' + (div = Div10(num3)));
+                num3 -= div * 10;
+            L9:
+                destination[offset++] = ((byte)('0' + (num3)));
+            }
+        L8:
+            destination[offset++] = (byte)('0' + (div = Div1000(num2)));
+            num2 -= div * 1000;
+        L7:
+            destination[offset++] = (byte)('0' + (div = Div100(num2)));
+            num2 -= div * 100;
+        L6:
+            destination[offset++] = (byte)('0' + (div = Div10(num2)));
+            num2 -= div * 10;
+        L5:
+            destination[offset++] = (byte)('0' + num2);
+        }
+
+    L4:
+        destination[offset++] = (byte)('0' + (div = Div1000(num1)));
+        num1 -= div * 1000;
+    L3:
+        destination[offset++] = (byte)('0' + (div = Div100(num1)));
+        num1 -= div * 100;
+    L2:
+        destination[offset++] = (byte)('0' + (div = Div10(num1)));
+        num1 -= div * 10;
+    L1:
+        destination[offset++] = (byte)('0' + num1);
+
+        if (underPoint > 0)
+        {
+            num8 = underPoint;
+
+            num8 -= (num4 = num8 / 10000) * 10000; // 実行後、num4:1～4桁目の値 num8:5～8桁目の値
+            num4 -= (num2 = Div100(num4)) * 100; // 実行後、num2:1～2桁目の値 num4:3～4桁目の値
+            num2 -= (num1 = Div10(num2)) * 10; // 実行後、num1:1桁目の値 num2:2桁目の値
+
+            if (num8 > 0) // 5～8桁を評価
+            {
+                // 小数点以下出力は、5桁以上
+                num4 -= (num3 = Div10(num4)) * 10; // 実行後、num3:3桁目の値 num4:4桁目の値
+                num8 -= (num6 = Div100(num8)) * 100; // 実行後、num6:5～6桁目の値 num8:7～8桁目の値
+                num6 -= (num5 = Div10(num6)) * 10; // 実行後、num5:5桁目の値 num6:6桁目の値
+                if (num8 > 0) // 7～8桁を評価
+                {
+                    // 小数点以下出力は、7or8桁
+                    num8 -= (num7 = Div10(num8)) * 10; // 実行後、num7:7桁目の値 num8:8桁目の値
+                    if (num8 > 0) // 8桁を評価
+                    {
+                        // 小数点以下出力は、8桁
+                        offset2 = offset += 9;
+                        if (destination.Length < offset) { return false; }
+                        goto LM8;
+                    }
+                    else
+                    {
+                        // 小数点以下出力は、7桁
+                        offset2 = offset += 8;
+                        if (destination.Length < offset) { return false; }
+                        goto LM7;
+                    }
+                }
+                else
+                {
+                    // 小数点以下出力は、5or6桁
+                    if (num6 > 0) // 6桁を評価
+                    {
+                        // 小数点以下出力は、6桁
+                        offset2 = offset += 7;
+                        if (destination.Length < offset) { return false; }
+                        goto LM6;
+                    }
+                    else
+                    {
+                        // 小数点以下出力は、5桁
+                        offset2 = offset += 6;
+                        if (destination.Length < offset) { return false; }
+                        goto LM5;
+                    }
+                }
+            }
+            else
+            {
+                // 小数点以下出力は、4桁以下
+                if (num4 > 0) // 3～4桁を評価
+                {
+                    // 小数点以下出力は、3or4桁
+                    num4 -= (num3 = Div10(num4)) * 10; // 実行後、num3:3桁目の値 num4:4桁目の値
+                    if (num4 > 0) // 4桁を評価
+                    {
+                        // 小数点以下出力は、4桁
+                        offset2 = offset += 5;
+                        if (destination.Length < offset) { return false; }
+                        goto LM4;
+                    }
+                    else
+                    {
+                        // 小数点以下出力は、3桁
+                        offset2 = offset += 4;
+                        if (destination.Length < offset) { return false; }
+                        goto LM3;
+                    }
+                }
+                else
+                {
+                    // 小数点以下出力は、1or2桁
+                    if (num2 > 0) // 2桁を評価
+                    {
+                        // 小数点以下出力は、2桁
+                        offset2 = offset += 3;
+                        if (destination.Length < offset) { return false; }
+                        goto LM2;
+                    }
+                    else
+                    {
+                        // 小数点以下出力は、1桁
+                        offset2 = offset += 2;
+                        if (destination.Length < offset) { return false; }
+                        goto LM1;
+                    }
+                }
+            }
+
+        LM8:
+            destination[--offset2] = (byte)('0' + num8);
+        LM7:
+            destination[--offset2] = (byte)('0' + num7);
+        LM6:
+            destination[--offset2] = (byte)('0' + num6);
+        LM5:
+            destination[--offset2] = (byte)('0' + num5);
+        LM4:
+            destination[--offset2] = (byte)('0' + num4);
+        LM3:
+            destination[--offset2] = (byte)('0' + num3);
+        LM2:
+            destination[--offset2] = (byte)('0' + num2);
+        LM1:
+            destination[--offset2] = (byte)('0' + num1);
+            destination[--offset2] = (byte)'.';
+        }
+        writtenLength = offset;
+        return true;
+    }
+
+    [Benchmark]
+    public (byte[], int) FixedPointReturnBuffer()
+    {
+        int offset = 0;
+        if (TryWriteUtf8(_fixedPointValue, _buffer.AsSpan(offset), out var writtenLength) == false)
+        {
+            throw new Exception("Buffer不足");
+        }
+        offset += writtenLength;
+
+        return (_buffer, offset);
+    }
 
 | Method                 | Job        | Runtime  | Mean       | Error     | StdDev    | Ratio | RatioSD |
 |----------------------- |----------- |--------- |-----------:|----------:|----------:|------:|--------:|
@@ -670,6 +1071,44 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 ・[**Utf8JsonBenchmark**](https://gitan.dev/?p=320)　　Utf8文字列の作り方とパフォーマンス
 
+
+    [Benchmark]
+    public int GetSpan_CopyToTryFormat()
+    {
+        Span<byte> buffer = stackalloc byte[128];
+
+        var json = MakeSpan_CopyToTryFormat(buffer, _sideUtf8, _price, _size);
+        return json.Length;
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public Span<byte> MakeSpan_CopyToTryFormat(Span<byte> buffer, ReadOnlySpan<byte> side, long price, double size)
+    {
+        int offset = 0;
+        """
+    {"side":"
+    """u8.CopyTo(buffer[offset..]);
+        offset += 9;
+        side.CopyTo(buffer[offset..]);
+        offset += side.Length;
+        """
+    ","price":
+    """u8.CopyTo(buffer[offset..]);
+        offset += 10;
+        price.TryFormat(buffer[offset..], out int written);
+        offset += written;
+        """
+    ,"size":
+    """u8.CopyTo(buffer[offset..]);
+        offset += 8;
+        size.TryFormat(buffer[offset..], out written);
+        offset += written;
+        "}"u8.CopyTo(buffer[offset..]);
+        offset += 1;
+
+        return buffer[..offset];
+    }
+
 | Method                           | Job        | Runtime  | Mean      | Error    | StdDev   | Ratio | RatioSD |
 |--------------------------------- |----------- |--------- |----------:|---------:|---------:|------:|--------:|
 | GetBytes_StringSomeAdd           | Job-ZUTAWM | .NET 8.0 | 212.34 ns | 1.512 ns | 1.263 ns |  1.00 |    0.01 |
@@ -706,6 +1145,24 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 
 ・[**VariousBenchmark**](https://gitan.dev/?p=109)　　C#のいろいろな、遅くなる要素のベンチマーク
+
+    const int _loopCount = 10_000_000;
+
+    [Benchmark]
+    public long IntBench()
+    {
+        long sum = 0;
+
+        for (int i = 0; i < _loopCount; i++)
+        {
+            int a = 1;
+            int b = 2;
+
+            sum += SumInt(a, b);
+        }
+
+        return sum;
+    }
 
 | Method                                 | Job        | Runtime  | Mean       | Error     | StdDev    | Median     | Ratio | RatioSD |
 |--------------------------------------- |----------- |--------- |-----------:|----------:|----------:|-----------:|------:|--------:|
