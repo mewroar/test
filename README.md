@@ -71,6 +71,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | U8BytesBench                  | Job-WLOQWX | .NET 9.0 |   7.160 ns | 0.1011 ns | 0.1038 ns |   7.118 ns |  0.76 |    0.04 |
 
 
+
 ・ByteArrayROSSplitBenchmark　　byte[]をReadOnlySpan<byte>で分けた時と比較したベンチマーク
 
     [Benchmark]
@@ -94,6 +95,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | ByteArraySplitBench    | Job-WLOQWX | .NET 9.0 | 1,615.0 ns | 32.23 ns | 64.37 ns |  0.99 |    0.04 |
 | ReadOnlySpanSplitBench | Job-DDXAAB | .NET 8.0 |   453.1 ns |  8.79 ns | 10.80 ns |  1.00 |    0.03 |
 | ReadOnlySpanSplitBench | Job-WLOQWX | .NET 9.0 |   439.8 ns |  3.71 ns |  2.90 ns |  0.97 |    0.02 |
+
 
 
 ・[DivShiftBenchmark](https://gitan.dev/?p=275)　　Int、UInt、Long、ULongの整数の割り算を比較したベンチマーク
