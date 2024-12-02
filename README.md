@@ -41,7 +41,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 ■**ベンチマーク**
 
-・[CommandStringUtf8Benchmark](https://gitan.dev/?p=213)　　文字列とUtf8のbyte[]のコマンド比較ベンチマーク
+・[**CommandStringUtf8Benchmark**](https://gitan.dev/?p=213)　　文字列とUtf8のbyte[]のコマンド比較ベンチマーク
 
     [Benchmark]
     public int StringSwitchBench()
@@ -71,7 +71,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 | U8BytesBench                  | Job-WLOQWX | .NET 9.0 |   7.160 ns | 0.1011 ns | 0.1038 ns |   7.118 ns |  0.76 |    0.04 |
 
 
-・ByteArrayROSSplitBenchmark　　byte[]をReadOnlySpan<byte>で分けた時と比較したベンチマーク
+・**ByteArrayROSSplitBenchmark**　　byte[]をReadOnlySpan<byte>で分けた時と比較したベンチマーク
 
     [Benchmark]
     public int ReadOnlySpanSplitBench()
