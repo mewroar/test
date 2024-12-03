@@ -47,7 +47,8 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 [**UnixTimeBenchmark**](https://gitan.dev/?p=358)　　UnixTimeを作る方法のベンチマーク<br>
 [**Utf8JsonBenchmark**](https://gitan.dev/?p=320)　　Utf8文字列の作り方とパフォーマンス<br>
 [**VariousBenchmark**](https://gitan.dev/?p=109)　　C#のいろいろな、遅くなる要素のベンチマーク<br>
-・[**CommandStringUtf8Benchmark**](https://gitan.dev/?p=213)　　文字列とUtf8のbyte[]のコマンド比較ベンチマーク<br>
+
+・[**CommandStringUtf8Benchmark**](https://gitan.dev/?p=213)　　文字列とUtf8のbyte[]のコマンド比較ベンチマーク
 
     [Benchmark]
     public int StringSwitchBench()
