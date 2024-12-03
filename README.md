@@ -10,7 +10,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 ・NET SDKをインストール(.net8.0 .net9.0)
 
-・BenchmarkDotNetライブラリ
+・BenchmarkDotNetライブラリをインストール
 
 
 ■**使用方法**
@@ -28,15 +28,15 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
  &lt;/PropertyGroup&gt;<br>
 
 
-コマンドプロンプトでBenchmark.csprojがあるプロジェクトのルートディレクトリまで移動して下記を実行
+■**実行**
 
-・全てのベンチマークを実行するコマンド
+・**コマンドプロンプト**
+　
+　Benchmark.csprojがあるプロジェクトのルートディレクトリまで移動して下記を実行
 
-　dotnet run -c Release -f net9.0 --filter "*"
+　dotnet run -c Release -f net9.0 --filter "*"　　全てのベンチマークを実行するコマンド
 
-・特定のベンチマークを実行するコマンド
-
-　dotnet run -c Release -f net9.0 --filter "*CommandStringUtf8Benchmark*"
+　dotnet run -c Release -f net9.0 --filter "*CommandStringUtf8Benchmark*"　　特定のベンチマークを実行するコマンド
 
 ■**ベンチマーク**
 
