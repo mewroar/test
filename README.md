@@ -1,19 +1,15 @@
 
 ■**Benchmarkとは**<br>
 Benchmarkは、さまざまな方法のパフォーマンスを比較するためのベンチマークです。<br>
-ベンチマーク用のライブラリ「BenchmarkDotNet」を使用して実装されています。
+ベンチマーク用のライブラリ「BenchmarkDotNet」を使用して実装されています。<br><br>
+プロジェクトURL : [https://github.com/gitan-dev/Benchmark](https://github.com/gitan-dev/Benchmark)<br><br>
 
-プロジェクトURL : [https://github.com/gitan-dev/Benchmark](https://github.com/gitan-dev/Benchmark)
-
-■**前提条件**
-
-・NET SDKをインストール(.net8.0 .net9.0)
-
-・BenchmarkDotNetライブラリをインストール
+■**前提条件**<br>
+・NET SDKをインストール(.net8.0 .net9.0)<br>
+・BenchmarkDotNetライブラリをインストール<br><br>
 
 
 ■**使用方法**<br>
-
 プロジェクトのプロパティグループに計測したい.netバージョンをTargetFrameworksに設定する
 
  &lt;PropertyGroup&gt;<br>
