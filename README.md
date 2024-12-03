@@ -1,7 +1,7 @@
 
 ■**Benchmarkとは**
 
-Benchmarkは、さまざまな方法のパフォーマンスを比較するためのベンチマークです。
+Benchmarkは、さまざまな方法のパフォーマンスを比較するためのベンチマークです。<br>
 ベンチマーク用のライブラリ「BenchmarkDotNet」を使用して実装されています。
 
 プロジェクトURL : [https://github.com/gitan-dev/Benchmark](https://github.com/gitan-dev/Benchmark)
@@ -13,7 +13,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 ・BenchmarkDotNetライブラリをインストール
 
 
-■**使用方法**
+■**使用方法**<br>
 
 プロジェクトのプロパティグループに計測したい.netバージョンをTargetFrameworksに設定する
 
