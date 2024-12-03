@@ -1,6 +1,5 @@
 
-■**Benchmarkとは**
-
+■**Benchmarkとは**<br>
 Benchmarkは、さまざまな方法のパフォーマンスを比較するためのベンチマークです。<br>
 ベンチマーク用のライブラリ「BenchmarkDotNet」を使用して実装されています。
 
@@ -28,8 +27,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
  &lt;/PropertyGroup&gt;<br>
 
 
-■**実行**
-
+■**実行**<br>
 ・**コマンドプロンプト**
 　
 　Benchmark.csprojがあるプロジェクトのルートディレクトリまで移動して下記を実行
@@ -38,7 +36,7 @@ Benchmarkは、さまざまな方法のパフォーマンスを比較するた�
 
 　dotnet run -c Release -f net9.0 --filter "*CommandStringUtf8Benchmark*"　　特定のベンチマークを実行するコマンド
 
-■**ベンチマーク**
+■**ベンチマーク**<br>
 
 ・[**CommandStringUtf8Benchmark**](https://gitan.dev/?p=213)　　文字列とUtf8のbyte[]のコマンド比較ベンチマーク
 
